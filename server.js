@@ -54,6 +54,15 @@ app.get("/login", (req, res) => {
   res.render("login");
 })
 
+
+app.post("/login", (req, res) => {
+  // logs in a a user and redirects to url page if information is valid  otherise sends an error message
+  const { email, password } = req.body;
+
+  console.log(email);
+  console.log(password);
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
