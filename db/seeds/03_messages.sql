@@ -1,1 +1,3 @@
-INSERT INTO messages (user_id, vendor_id, item_id, message_content) VALUES ('1', '1', '1', 'Hello', 'Montreal');
+INSERT INTO messages (user_id, vendor_id, item_id, message_content, date_created) VALUES ('1', '2', '1', 'Hello', '2021-03-08T07:00:00.000Z');
+
+INSERT INTO messages (user_id, vendor_id, item_id, message_content, date_created) VALUES ('1', '2', '2', 'Hello, my name is Alice, I want to make a small purchase', '2021-03-08T07:00:00.000Z');
