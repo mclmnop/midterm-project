@@ -35,11 +35,14 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+const loginRoutes = require("./routes/login");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
+app.use("/login", loginRoutes(db));
+
 // Note: mount other resources here, using the same pattern above
 
 
@@ -48,19 +51,6 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
   res.render("index");
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
-})
-
-
-app.post("/login", (req, res) => {
-  // logs in a a user and redirects to url page if information is valid  otherise sends an error message
-  const { email, password } = req.body;
-
-  console.log(email);
-  console.log(password);
 });
 
 app.listen(PORT, () => {
