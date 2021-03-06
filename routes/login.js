@@ -10,9 +10,18 @@ module.exports = (db) => {
   router.post("/", (req, res) => {
     // logs in a a user and redirects to url page if information is valid  otherise sends an error message
     const { email, password } = req.body;
-
-    console.log(email);
-    console.log(password);
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        let users = data.rows;
+        for (let user of users) {
+          console.log(user.email);
+          if (user.email === email) {
+            console.log("true");
+            return;
+          }
+        }
+        console.log("true");
+      })
     res.send("okay");
   });
   return router;
