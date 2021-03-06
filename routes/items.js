@@ -31,12 +31,17 @@ module.exports = (db) => {
       });
   });
 
-  //outputs searched item
+  //outputs searched item for now works with a name
   router.get("/search", (req, res) => {
     const searchWord = "%" + req.query.name + "%";
     let queryParams = [];
-    queryParams.push(searchWord)
-    queryString = `SELECT * FROM items WHERE name LIKE $1`
+    queryParams.push(searchWord);
+    const queryString =
+    `
+      SELECT *
+      FROM items
+      WHERE name LIKE $1
+    `
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
@@ -50,12 +55,20 @@ module.exports = (db) => {
       });
   });
 
+  //needs req.body with values (name, description, price, image_url, vendor_id,)
   router.post("/new", (req, res) => {
-    const newItem = [req.params.name, req.params.description];
-    db.query(`INSERT INTO items (name, description, price, image_url, vendor_id, creation_date, is_active, is_sold) VALUES ($1, $2, $3, $4, $5 )`, newItem)
+    const creation_date = new Date().toISOString();
+    let queryParams = ['bottle', '50 years old whiskey', 10000, 'https://bit.ly/3qovxfk', 1, creation_date];
+    const queryString =
+    `
+      INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `
+    db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
-        console.log(items);
+        //console.log(items);
         res.json({ items });
       })
       .catch(err => {
