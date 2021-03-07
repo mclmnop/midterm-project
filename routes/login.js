@@ -1,5 +1,6 @@
 const express = require('express');
 const router  = express.Router();
+const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -7,22 +8,27 @@ module.exports = (db) => {
   })
 
 
+
   router.post("/", (req, res) => {
     // logs in a a user and redirects to url page if information is valid  otherise sends an error message
     const { email, password } = req.body;
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        let users = data.rows;
-        for (let user of users) {
-          console.log(user.email);
-          if (user.email === email) {
-            console.log("true");
-            return;
-          }
+    db.query(`
+    SELECT * FROM users
+    WHERE LOWER(email) = LOWER($1);
+    `, [email])
+      .then(user => {
+        if (user.rows[0]) {
+          // commentedout password comparison goes here
+          res.send("You are now logged in.");
+          return;
         }
-        console.log("true");
+        res.send({error: "Log In error."});
       })
-    res.send("okay");
   });
   return router;
 };
+
+
+// if (bcrypt.compareSync(password, user.rows[0].password)) {
+//   return user.rows[0];
+// }
