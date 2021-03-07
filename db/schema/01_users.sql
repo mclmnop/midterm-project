@@ -13,5 +13,5 @@ CREATE TABLE users (
   province VARCHAR(255) NOT NULL,
   country VARCHAR(255) NOT NULL,
   postal_code VARCHAR(255) NOT NULL,
-  is_vendor BOOLEAN NOT NULL DEFAULT FALSE
+  is_vendor BOOLEAN DEFAULT FALSE
 );
