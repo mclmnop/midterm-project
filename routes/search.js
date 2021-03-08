@@ -59,8 +59,27 @@ module.exports = (db) => {
       });
   });
 
-  //get item ID
+  //get item ID info with vendor name
   router.get("/:id", (req, res) => {
+    db.query(`
+      SELECT items.*, users.name as userFirstLastName
+      FROM items
+      JOIN users ON items.vendor_id = users.id
+      WHERE items.id = $1`, [req.params.id])
+    .then(data => {
+      const items = data.rows[0];
+      console.log(items);
+      //res.json({ items });
+      const templateVars = { searchResult: items }
+      res.render('itemSearched_vendor', templateVars)
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+/*   router.get("/:id", (req, res) => {
     db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
     .then(data => {
       const items = data.rows[0];
@@ -68,6 +87,22 @@ module.exports = (db) => {
       //res.json({ items });
       const templateVars = { searchResult: items }
       res.render('itemSearched_vendor', templateVars)
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  }); */
+
+  router.get("/:id/edit", (req, res) => {
+    db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
+    .then(data => {
+      const items = data.rows[0];
+      console.log(items);
+      //res.json({ items });
+      const templateVars = { searchResult: items }
+      res.render('item_edit', templateVars)
     })
     .catch(err => {
       res
@@ -92,21 +127,6 @@ module.exports = (db) => {
         const items = data.rows;
         console.log(items);
         res.render("index");
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-  //get item ID works
-  router.get("/:id", (req, res) => {
-    db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
-      .then(data => {
-        const items = data.rows;
-        console.log(items);
-        res.json({ items });
       })
       .catch(err => {
         res
