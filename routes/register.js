@@ -16,7 +16,6 @@ module.exports = (db) => {
       isVend = false;
     }
 
-
     let queryString = `
     INSERT INTO users (name, email, password, phone, street, city, province, country, postal_code, is_vendor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *;
@@ -24,6 +23,7 @@ module.exports = (db) => {
     db.query(queryString, [name, email, password, phone, street, city, province, country, postalCode, isVend])
       .then(user => {
           // commentedout password comparison goes here
+        console.log(user.rows);
         res.redirect("/");
         return;
       })
