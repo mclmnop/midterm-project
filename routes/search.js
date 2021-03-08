@@ -17,21 +17,6 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-/*   // outputs list of all items
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM items;`)
-      .then(data => {
-        const items = data.rows;
-        console.log(items);
-        res.json({ items });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  }); */
-
   //outputs searched item for now works with a name
   router.get("/", (req, res) => {
     const searchWord = "%" + req.query.search + "%";
@@ -47,8 +32,7 @@ module.exports = (db) => {
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
-        console.log('result allo', items);
-        //res.json({ items });
+        console.log('result allo', items)
         const templateVars = { searchResult: items }
         res.render('search', templateVars)
       })
@@ -62,7 +46,7 @@ module.exports = (db) => {
   //get item ID info with vendor name
   router.get("/:id", (req, res) => {
     db.query(`
-      SELECT items.*, users.name as userFirstLastName
+      SELECT items.*, users.name as userfirstlastname
       FROM items
       JOIN users ON items.vendor_id = users.id
       WHERE items.id = $1`, [req.params.id])
@@ -70,8 +54,9 @@ module.exports = (db) => {
       const items = data.rows[0];
       console.log(items);
       //res.json({ items });
+
       const templateVars = { searchResult: items }
-      res.render('itemSearched_vendor', templateVars)
+      res.render('itemSearched_user', templateVars)
     })
     .catch(err => {
       res
@@ -79,21 +64,6 @@ module.exports = (db) => {
       .json({ error: err.message });
     });
   });
-/*   router.get("/:id", (req, res) => {
-    db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
-    .then(data => {
-      const items = data.rows[0];
-      console.log(items);
-      //res.json({ items });
-      const templateVars = { searchResult: items }
-      res.render('itemSearched_vendor', templateVars)
-    })
-    .catch(err => {
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
-  }); */
 
   router.get("/:id/edit", (req, res) => {
     db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
