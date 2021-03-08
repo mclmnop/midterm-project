@@ -11,6 +11,7 @@
 /items/:id get this item id
 /items/:id/edit edit this item id*/
 
+const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
 
@@ -33,7 +34,7 @@ module.exports = (db) => {
 
   //outputs searched item for now works with a name
   router.get("/search", (req, res) => {
-    const searchWord = "%" + req.query.name + "%";
+    const searchWord = "%" + req.query.search + "%";
     let queryParams = [];
     queryParams.push(searchWord);
     const queryString =
@@ -41,6 +42,7 @@ module.exports = (db) => {
       SELECT *
       FROM items
       WHERE name LIKE $1
+      OR description LIKE $1
     `
     db.query(queryString, queryParams)
       .then(data => {
@@ -55,10 +57,11 @@ module.exports = (db) => {
       });
   });
 
-  //needs req.body with values (name, description, price, image_url, vendor_id,)
+  //needs req.body with values (name, description, price, image_url, vendor_id,), works except for vendor Id
   router.post("/new", (req, res) => {
+    console.log(req.body)
     const creation_date = new Date().toISOString();
-    let queryParams = ['bottle', '50 years old whiskey', 10000, 'https://bit.ly/3qovxfk', 1, creation_date];
+    let queryParams = [req.body.name, req.body.description, req.body.price, req.body.image_url, 1, creation_date];
     const queryString =
     `
       INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
@@ -68,8 +71,8 @@ module.exports = (db) => {
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
-        //console.log(items);
-        res.json({ items });
+        console.log(items);
+        res.render("index")
       })
       .catch(err => {
         res
@@ -78,6 +81,7 @@ module.exports = (db) => {
       });
   });
 
+  //get item ID works
   router.get("/:id", (req, res) => {
     db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
       .then(data => {
@@ -90,11 +94,37 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-  });
+    });
 
   //receives the things to update on an item
   router.post("/:id/edit", (req, res) => {
-    db.query(`UPDATE items SET description description = 'new' WHERE id = $1`, [req.params.id])
+    //adding the id from the URL as first param
+    let queryParams = [req.params.id];
+
+    let queryString = `
+    UPDATE items
+    SET `
+
+    //arrays to update multiple columns
+    let keys = [];
+    let values =[];
+
+    //looping through body to remove null values
+    for (var key in req.body) {
+      if (req.body[key] !== null) {
+        keys.push(key);
+        queryParams.push(req.body[key]);
+        values.push(`$${queryParams.length}`)
+      }
+    }
+
+    //adding columns to be modified
+    queryString += `
+      (${keys}) = (${values})
+      WHERE id = $1
+      RETURNING *
+    `
+    db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
         console.log(items);
@@ -105,12 +135,6 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-  });
-
-
-
-
-
-
+    });
   return router;
 };
