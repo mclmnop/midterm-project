@@ -59,6 +59,23 @@ module.exports = (db) => {
       });
   });
 
+  //get item ID
+  router.get("/:id", (req, res) => {
+    db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
+    .then(data => {
+      const items = data.rows[0];
+      console.log(items);
+      //res.json({ items });
+      const templateVars = { searchResult: items }
+      res.render('itemSearched_vendor', templateVars)
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+
   //needs req.body with values (name, description, price, image_url, vendor_id,), works except for vendor Id
   router.post("/new", (req, res) => {
     console.log(req.body)
@@ -82,21 +99,6 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-
-  //get item ID works
-  router.get("/:id", (req, res) => {
-    db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
-      .then(data => {
-        const items = data.rows;
-        console.log(items);
-        res.json({ items });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-    });
 
   //receives the things to update on an item
   router.post("/:id/edit", (req, res) => {
