@@ -26,6 +26,9 @@ module.exports = (db) => {
       .then(user => {
           // commentedout password comparison goes here
         console.log(user.rows);
+        req.session = {
+          userId: user.rows[0].id
+        }
         res.redirect("/");
         return;
       })

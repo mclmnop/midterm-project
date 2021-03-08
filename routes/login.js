@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    res.render("login");
+    const userId = req.session.user_id;
+    const templateVars = { userId };
+    res.render("login", templateVars);
   })
 
 
@@ -18,6 +20,7 @@ module.exports = (db) => {
       .then(user => {
         if (user.rows[0]) {
           if (bcrypt.compareSync(password, user.rows[0].password)) {
+            req.session.userId = user.rows[0].id;
             res.redirect("/");
             return;
           }

@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
+const cookieSession = require('cookie-session');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
@@ -22,6 +23,12 @@ db.connect();
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1'],
+  signed: false
+}));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,7 +47,8 @@ const itemsRoutes = require("./routes/search");
 const widgetsRoutes = require("./routes/widgets");
 const loginRoutes = require("./routes/login");
 const registerRoutes = require("./routes/register");
-const homeRoutes = require("./routes/home");
+const logoutRoutes = require("./routes/logout");
+//const homeRoutes = require("./routes/home");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -49,7 +57,9 @@ app.use("/api/widgets", widgetsRoutes(db));
 app.use("/login", loginRoutes(db));
 app.use("/register", registerRoutes(db));
 app.use("/search", itemsRoutes(db));
-app.use("/home", homeRoutes(db));
+app.use("/logout", logoutRoutes(db));
+
+//app.use("/home", homeRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 
@@ -60,6 +70,8 @@ app.use("/home", homeRoutes(db));
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
