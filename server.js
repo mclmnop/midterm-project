@@ -49,7 +49,7 @@ app.use("/api/widgets", widgetsRoutes(db));
 app.use("/login", loginRoutes(db));
 app.use("/register", registerRoutes(db));
 app.use("/search", itemsRoutes(db));
-// app.use("/home", homeRoutes(db));
+app.use("/home", homeRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 
@@ -58,7 +58,7 @@ app.use("/search", itemsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  res.render("index");
+  res.redirect("/home");
 });
 
 app.listen(PORT, () => {
