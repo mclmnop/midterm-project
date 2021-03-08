@@ -42,6 +42,7 @@
                                   <h3><%= searchResult.name%></h3>
                                   <p><%= searchResult.description%></p>
                                   <p>Price :<%= searchResult.price / 100 %> $$$</p>
+                                  <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
                               </div>
                           </a>
                       </div>
