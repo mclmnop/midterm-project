@@ -49,7 +49,7 @@ app.use("/api/widgets", widgetsRoutes(db));
 app.use("/login", loginRoutes(db));
 app.use("/register", registerRoutes(db));
 app.use("/search", itemsRoutes(db));
-app.use("/home", homeRoutes(db));
+// app.use("/home", homeRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 
