@@ -9,5 +9,20 @@ body h1 {
 
 .logo {
   font-family: 'Righteous', cursive;
-  font-size: 2em;
+  font-size: 1.5em;
+}
+.user-info {
+  display:flex;
+  width: 10%;
+  justify-content: space-between;
+}
+
+.nav-btn {
+  border: none;
+  background-color: orange;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  cursor: pointer;
+  line-height: 1.5;
+  border-radius: 0.25rem;
 }

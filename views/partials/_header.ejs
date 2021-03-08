@@ -2,13 +2,14 @@
   <nav class="navbar">
     <a href ="/"><button class="logo" href="/">Vend</button></a>
     <div>
-      <form method="POST" action="/search" class="form-inline">
+      <form method="GET" action="api/items/search" class="form-inline">
         <input class="form-control" type="text" placeholder="Search" name="search" />
-        <button class="btn btn-primary" type="submit">Search</button>
+        <button class="nav-btn" type="submit">Search</button>
       </form>
     </div>
-    <div>
-      User info
+    <div class="user-info">
+      <p>Log In</p>
+      <p>Register</p>
     </div>
   </nav>
 </header>
