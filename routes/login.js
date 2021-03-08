@@ -18,17 +18,13 @@ module.exports = (db) => {
     `, [email])
       .then(user => {
         if (user.rows[0]) {
-          // commentedout password comparison goes here
-          res.redirect("/");
-          return;
+          if (bcrypt.compareSync(password, user.rows[0].password)) {
+            res.redirect("/");
+            return;
+          }
         }
         res.send({error: "Log In error."});
       })
   });
   return router;
 };
-
-
-// if (bcrypt.compareSync(password, user.rows[0].password)) {
-//   return user.rows[0];
-// }
