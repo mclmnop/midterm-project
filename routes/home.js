@@ -2,9 +2,10 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
-    res.render("index");
-  });
+  // This route is redundant since it is included in the server.js file
+  // router.get("/", (req, res) => {
+  //   res.render("index");
+  // });
 
 
   // Redirects to the search page
