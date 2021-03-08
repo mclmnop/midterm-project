@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <!-- page-specific styles here: -->
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
 
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -31,18 +33,18 @@
         <form method="GET" action="/api/items/search" class="form text-center">
           <div class="form-group">
             <input class="form-control-lg form-input" id="item_search" type="text" name="item_search" placeholder="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
           </div>
-          <div class="form-group form-row">
+          <div class="form-group form-inline mx-auto">
             <div class="col-1 mx-auto">
-              <label for="search_min">Minimum price:</label>
+              <label class="col-form-label"  for="search_min">Minimum price:</label>
               <input class="form-control" id="search_min_price" type="number" name="search_min_price" min="0">
             </div>
             <div class="col-1 mx-auto">
-              <label for="search_max">Maximum price:</label>
+              <label class="col-form-label" for="search_max">Maximum price:</label>
               <input class="form-control" id="search_max_price" type="number" name="search_max_price" min="0">
             </div>
-            <div class="col-2 mx-auto">
-              <button class="btn btn-primary" type="submit">Search</button>
+            <div class="col-2">
             </div>
           </div>
         </form>
