@@ -43,7 +43,7 @@ module.exports = (db) => {
       FROM items
       WHERE name LIKE $1
       OR description LIKE $1
-    `
+    `;
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
@@ -61,7 +61,7 @@ module.exports = (db) => {
 
   //needs req.body with values (name, description, price, image_url, vendor_id,), works except for vendor Id
   router.post("/new", (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const creation_date = new Date().toISOString();
     let queryParams = [req.body.name, req.body.description, req.body.price, req.body.image_url, 1, creation_date];
     const queryString =
@@ -69,12 +69,12 @@ module.exports = (db) => {
       INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
-    `
+    `;
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
         console.log(items);
-        res.render("index")
+        res.render("index");
       })
       .catch(err => {
         res
@@ -96,7 +96,7 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-    });
+  });
 
   //receives the things to update on an item
   router.post("/:id/edit", (req, res) => {
@@ -105,18 +105,18 @@ module.exports = (db) => {
 
     let queryString = `
     UPDATE items
-    SET `
+    SET `;
 
     //arrays to update multiple columns
     let keys = [];
-    let values =[];
+    let values = [];
 
     //looping through body to remove null values
-    for (var key in req.body) {
+    for (let key in req.body) {
       if (req.body[key] !== null) {
         keys.push(key);
         queryParams.push(req.body[key]);
-        values.push(`$${queryParams.length}`)
+        values.push(`$${queryParams.length}`);
       }
     }
 
@@ -125,7 +125,7 @@ module.exports = (db) => {
       (${keys}) = (${values})
       WHERE id = $1
       RETURNING *
-    `
+    `;
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
@@ -137,6 +137,6 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-    });
+  });
   return router;
 };
