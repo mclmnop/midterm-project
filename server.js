@@ -39,6 +39,7 @@ const usersRoutes = require("./routes/users");
 const itemsRoutes = require("./routes/items");
 const widgetsRoutes = require("./routes/widgets");
 const loginRoutes = require("./routes/login");
+const registerRoutes = require("./routes/register");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -46,6 +47,7 @@ app.use("/api/users", usersRoutes(db));
 app.use("/api/items", itemsRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 app.use("/login", loginRoutes(db));
+app.use("/register", registerRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 
