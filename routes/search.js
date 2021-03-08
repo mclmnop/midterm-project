@@ -17,7 +17,7 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-  // outputs list of all items
+/*   // outputs list of all items
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM items;`)
       .then(data => {
@@ -30,10 +30,10 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
-  });
+  }); */
 
   //outputs searched item for now works with a name
-  router.get("/search", (req, res) => {
+  router.get("/", (req, res) => {
     const searchWord = "%" + req.query.search + "%";
     let queryParams = [];
     queryParams.push(searchWord);
@@ -47,8 +47,10 @@ module.exports = (db) => {
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
-        console.log(items);
-        res.json({ items });
+        console.log('result allo', items);
+        //res.json({ items });
+        const templateVars = { searchResult: items }
+        res.render('search', templateVars)
       })
       .catch(err => {
         res
