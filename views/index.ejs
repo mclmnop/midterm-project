@@ -2,28 +2,51 @@
 <html lang="en">
   <head>
     <title>Home Page</title>
+    <%- include('partials/_header') %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    
+    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Righteous&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
   </head>
 
-  <body style="text-align: center;">
-    <h1>VEND</h1>
-    <h2>The place to buy and sell your stuff</h2>
+  <body>
+    <div class="jumbotron-fluid">
+      <div class="container text-center">
+        <h1 class="display-4">VEND</h1>
+        <h2 class="lead">The place to buy and sell your stuff</h2>
+      </div>
 
-    <!-- Search form -->
-    <form action="/search" method="POST">
-      <input id="item_search" type="text" name="item_search" value="Search">
-      <label for="search_min">Minimum price:</label>
-      <input id="search_min_price" type="number" name="search_min_price" min="0">
-      <label for="search_max">Maximum price:</label>
-      <input id="search_max_price" type="number" name="search_max_price" min="0">
-      <button type="submit">Search</button>
-    </form>
+      <!-- Search form -->
+      <div class="container ">
+        <form method="GET" action="/api/items/search" class="form text-center">
+          <div class="form-group">
+            <input class="form-control-lg form-input" id="item_search" type="text" name="item_search" placeholder="Search">
+          </div>
+          <div class="form-group form-row">
+            <div class="col-1 mx-auto">
+              <label for="search_min">Minimum price:</label>
+              <input class="form-control" id="search_min_price" type="number" name="search_min_price" min="0">
+            </div>
+            <div class="col-1 mx-auto">
+              <label for="search_max">Maximum price:</label>
+              <input class="form-control" id="search_max_price" type="number" name="search_max_price" min="0">
+            </div>
+            <div class="col-2 mx-auto">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
