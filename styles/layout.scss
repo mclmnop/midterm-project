@@ -1,9 +1,13 @@
-// See: https://sass-lang.com/
-
 body {
   background-color: #EEE;
+  font-family: 'Montserrat', sans-serif;
+}
 
-  h1 {
-    color: #244751;
-  }
+body h1 {
+  color: #244751;
+}
+
+.logo {
+  font-family: 'Righteous', cursive;
+  font-size: 2em;
 }
