@@ -8,8 +8,8 @@ module.exports = (db) => {
 
 
   // Redirects to the search page
-  // To implement: query database based on search terms
-  router.post("/", (req, res) => {
+  // To implement: take input from search form, query database based on search terms
+  router.post("/search", (req, res) => {
 
     // This view doesn't exist yet!
     res.redirect('/search');
