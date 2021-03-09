@@ -3,9 +3,7 @@ const router  = express.Router();
 const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
-  // This route is redundant since it is included in the server.js file
-
-
+  
   // Get the 10 most favourited items
   router.get("/", (req, res) => {
     const queryString =
