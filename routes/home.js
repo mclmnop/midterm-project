@@ -43,8 +43,8 @@ module.exports = (db) => {
       .then(data => {
         const items = data[0].rows;
         const featuredItems = splitArrayToGroupsOfThree(items);
-        const userFavourites = data[1].rows;
-        // console.log('👁result allo', itemsArray);
+        const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
+        console.log('👁result allo', userFavourites);
         //res.json({ items });
         const templateVars = { featuredItems, userFavourites, cookie };
         res.render('home', templateVars);

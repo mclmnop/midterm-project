@@ -131,7 +131,90 @@
                             </div>
                           </div>
                           <% } %>
-                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- User Favourites -->
+    <section class="pt-5 pb-5">
+      <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="mb-3">Your Favourite Items</h3>
+            </div>
+            <div class="col-6 text-right">
+                <a class="btn btn-primary mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                <a class="btn btn-primary mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-12">
+                <div id="userFavouritesCarousel" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                      <% for (let index = 0; index < userFavourites.length; index++) {%>
+                       <% if (index === 0) { %>
+                        <div class="carousel-item active">
+                        <%} %>
+                        <% if (index !== 0) { %>
+                        <div class="carousel-item">
+                        <% } %>
+                          <div class="row">
+
+                            <% if (userFavourites[index][0]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
+                                    <p class="card-text"><%= userFavourites[index][0].description %></p>
+
+                                  </div>
+
+                                </div>
+                              </div>
+                              <% } %>
+
+                            <% if (userFavourites[index][1]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
+                                    <p class="card-text"><%= userFavourites[index][1].description %></p>
+
+                                  </div>
+
+                                </div>
+                              </div>
+                              <% } %>
+
+                              <% if (userFavourites[index][2]) { %>
+                                <div class="col-md-4 mb-3">
+                                  <div class="card">
+                                    <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
+                                    <div class="card-body">
+                                      <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
+                                      <p class="card-text"><%= userFavourites[index][2].description %></p>
+
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <% } %>
+
+
+
+                            </div>
+                          </div>
+                          <% } %>
+
                     </div>
                 </div>
             </div>
