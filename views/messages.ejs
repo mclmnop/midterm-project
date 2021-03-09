@@ -23,6 +23,7 @@
     <% for (let message of data.rows) {%>
 
       <a href="/messages/<%= message.item_id %>/vendors/<%= message.vendor_id %>"><p><%= message.name %></p></a>
+      <p><%= message.item_id %></p>
     <%}%>
     </div>
 
