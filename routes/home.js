@@ -21,6 +21,8 @@ module.exports = (db) => {
 
   // Get the 10 most favourited items
   router.get("/", (req, res) => {
+    const cookie = req.session.userId;
+    console.log("👉🏻",cookie);
     const queryString =
     `SELECT DISTINCT items.* FROM items
     JOIN favourites ON items.id = favourites.item_id
@@ -31,9 +33,9 @@ module.exports = (db) => {
       .then(data => {
         const items = data.rows;
         const itemsArray = splitArrayToGroupsOfThree(items);
-        console.log('👁result allo', itemsArray);
+        // console.log('👁result allo', itemsArray);
         //res.json({ items });
-        const templateVars = { featuredItems: itemsArray };
+        const templateVars = { featuredItems: itemsArray, cookie };
         res.render('home', templateVars);
       })
       .catch(err => {
