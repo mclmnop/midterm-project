@@ -125,9 +125,15 @@ module.exports = (db) => {
     //looping through body to remove null values
     for (let key in req.body) {
       if (req.body[key] !== '') {
-        keys.push(key);
-        queryParams.push(req.body[key]);
-        values.push(`$${queryParams.length}`);
+        if (key === 'price') {
+          keys.push(key);
+          queryParams.push(req.body[key] * 100);
+          values.push(`$${queryParams.length}`)
+        } else {
+          keys.push(key);
+          queryParams.push(req.body[key]);
+          values.push(`$${queryParams.length}`);
+        }
       }
     }
     //if mark as sold button was hit
@@ -167,21 +173,18 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
   router.post("/:id/delete", (req, res) => {
-    console.log(req.body);
-    const creation_date = new Date().toISOString();
-    let queryParams = [req.body.name, req.body.description, req.body.price, req.body.image_url, 1, creation_date];
+    let queryParams = [req.params.id];
     const queryString =
     `
-      INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
+      DELETE
+      FROM items
+      WHERE id = $1
     `;
     db.query(queryString, queryParams)
       .then(data => {
-        const items = data.rows;
-        console.log(items);
-        res.render("index");
+        res.redirect('/home');
       })
       .catch(err => {
         res
@@ -189,7 +192,5 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-
-
   return router;
 };
