@@ -7,8 +7,8 @@ module.exports = (db) => {
     const cookie = req.session.userId;
     db.query(`
     SELECT users.name, count(messages.id), messages.item_id, messages.vendor_id FROM users
-        JOIN messages on users.id = messages.user_id
-        GROUP BY users.id, messages.item_id, messages.vendor_id ;
+        JOIN messages on users.id = messages.vendor_id
+        GROUP BY users.id, messages.item_id, messages.vendor_id;
     `)
       .then(data => {
 
@@ -49,8 +49,9 @@ module.exports = (db) => {
   router.get("/:itemId/vendors/:vendorId/", (req, res) => {
     const queryString = `SELECT users.name, array_agg(messages.message_content) as messages FROM users
     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
+    WHERE item_id =$1 AND vendor_id = $2
     GROUP BY users.id;`
-    db.query(queryString)
+    db.query(queryString, [req.params.itemId, req.params.vendorId])
       .then(data => {
         const messages = data.rows[0].messages;
         console.log(data.rows[0].messages);
@@ -91,3 +92,15 @@ module.exports = (db) => {
 // SELECT users.name, count(messages.id), messages.item_id FROM users
 //     JOIN messages on users.id = messages.user_id
 //     GROUP BY users.id, messages.item_id;
+
+
+
+// SELECT users.name, count(messages.id), messages.item_id, messages.vendor_id FROM users
+// JOIN messages on users.id = messages.vendor_id
+// GROUP BY users.id, messages.item_id, messages.vendor_id;
+
+
+// SELECT users.name, array_agg(messages.message_content) as messages FROM users
+//     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
+//     WHERE item_id = 1 AND vendor_id = 2
+//     GROUP BY users.id;
