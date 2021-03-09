@@ -1,15 +1,15 @@
 const express = require('express');
+const users = require('./users');
 const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
     const cookie = req.session.userId;
     db.query(`
-    select distinct sender.name as sender_name, sender.id as sender_id,
-        receiver.name as receiver_name, receiver.id as receiver_id,
-        msg.message_content, msg.date_created
-    from messages msg inner join users sender on msg.user_id = sender.id
-        inner join users receiver on msg.vendor_id = receiver.id;`)
+    SELECT users.name, count(messages.id), messages.item_id, messages.vendor_id FROM users
+        JOIN messages on users.id = messages.user_id
+        GROUP BY users.id, messages.item_id, messages.vendor_id ;
+    `)
       .then(data => {
 
         console.log(data.rows);
@@ -46,6 +46,20 @@ module.exports = (db) => {
     }
   });
 
+  router.get("/:itemId/vendors/:vendorId/", (req, res) => {
+    const queryString = `SELECT users.name, array_agg(messages.message_content) as messages FROM users
+    JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
+    GROUP BY users.id;`
+    db.query(queryString)
+      .then(data => {
+        const messages = data.rows[0].messages;
+        console.log(data.rows[0].messages);
+        const templateVars = { messages };
+        res.render("messageThread", templateVars);
+      })
+
+  })
+
   return router;
 };
 
@@ -55,3 +69,25 @@ module.exports = (db) => {
 //     JOIN items ON messages.item_id = items.id
 //     WHERE users.id = $1
 //     GROUP BY items.id;`
+
+// SELECT users.name, array_agg(messages.message_content) as messages FROM users
+// JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
+// GROUP BY users.id;
+
+
+
+
+
+
+//main
+// select distinct sender.name as sender_name, sender.id as sender_id,
+// receiver.name as receiver_name, receiver.id as receiver_id,
+// msg.message_content, msg.date_created
+// from messages msg inner join users sender on msg.user_id = sender.id
+// inner join users receiver on msg.vendor_id = receiver.id
+// WHERE sender.id = $1;
+
+
+// SELECT users.name, count(messages.id), messages.item_id FROM users
+//     JOIN messages on users.id = messages.user_id
+//     GROUP BY users.id, messages.item_id;

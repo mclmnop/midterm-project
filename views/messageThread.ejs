@@ -20,12 +20,8 @@
 
   <body>
     <div class="messages-container">
-    <% for (let message of data.rows) {%>
-      <p><%= message.name %></p>
-      <a href="/messages/<%= message.item_id %>/vendors/<%= message.vendor_id %>"><p><%= message.name %></p></a>
-
-      <p><%= message.item_id %></p>
-      <p><%= message.vendor_id %></p>
+    <% for (let message of messages) {%>
+      <p><%= message %></p>
     <%}%>
     </div>
 
