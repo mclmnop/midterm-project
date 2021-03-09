@@ -2,8 +2,23 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt');
 
+const splitArrayToGroupsOfThree = (items) => {
+  let itemsArray = [];
+  let subArray = [];
+  for (let i = 0; i < items.length; i++) {
+    subArray.push(items[i]);
+    if ((i + 1) % 3 === 0 && i > 0) {
+      itemsArray.push(subArray);
+      subArray = [];
+    } else if (i + 1 === items.length && subArray.length !== 0) {
+      itemsArray.push(subArray);
+    }
+  }
+  return itemsArray;
+};
+
 module.exports = (db) => {
-  
+
   // Get the 10 most favourited items
   router.get("/", (req, res) => {
     const queryString =
@@ -15,17 +30,7 @@ module.exports = (db) => {
     db.query(queryString, [])
       .then(data => {
         const items = data.rows;
-        let itemsArray = [];
-        let subArray = [];
-        for (let i = 0; i < items.length; i++) {
-          subArray.push(items[i]);
-          if ((i + 1) % 3 === 0 && i > 0) {
-            itemsArray.push(subArray);
-            subArray = [];
-          } else if (i + 1 === items.length && subArray.length !== 0) {
-            itemsArray.push(subArray);
-          }
-        }
+        const itemsArray = splitArrayToGroupsOfThree(items);
         console.log('👁result allo', itemsArray);
         //res.json({ items });
         const templateVars = { featuredItems: itemsArray };
