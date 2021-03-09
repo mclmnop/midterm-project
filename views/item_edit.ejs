@@ -60,8 +60,12 @@
             <button class="btn btn-primary" type="submit">Submit changes</button>
             <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
           </form>
-          <button class="btn btn-primary" type="submit">Mark as sold</button>
-          <button class="btn btn-primary" type="submit">Remove</button>
+          <form method="POST" action="/search/<%= searchResult.id%>/edit" class="form-inline form-second">
+            <button class="btn btn-primary" type="submit" name='sold' value='Mark as sold'>Mark as sold</button>
+          </form>
+          <form method="POST" action="/search/<%= searchResult.id%>/edit" class="form-inline form-second">
+            <button class="btn btn-primary" type="submit" name='remove'>Remove listing</button>
+          </form>
         </div>
       </div>
   </div>

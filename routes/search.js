@@ -109,12 +109,14 @@ module.exports = (db) => {
   router.post("/:id/edit", (req, res) => {
     //adding the id from the URL as first param
     let queryParams = [req.params.id];
+    let userID = req.params.id;
+
+    console.log('allo',req.body)
 
     let queryString = `
     UPDATE items
     SET `;
 
-    //if mark as sold button was hit
 
     //arrays to update multiple columns
     let keys = [];
@@ -128,9 +130,17 @@ module.exports = (db) => {
         values.push(`$${queryParams.length}`);
       }
     }
-
+    //if mark as sold button was hit
+    if(req.body.sold) {
+      queryString += `
+      is_sold = true
+      WHERE id = $1
+      RETURNING *
+      `
+      queryParams = [userID];
+    }
     //adding columns to be modified
-    if (queryParams.length === 2){
+     else if (queryParams.length === 2){
       queryString += `
       ${keys} = (${values})
       WHERE id = $1
@@ -143,13 +153,13 @@ module.exports = (db) => {
       RETURNING *
     `
     }
-
     console.log(queryString, queryParams)
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
         console.log(items);
-        res.json({ items });
+        //res.json({ items });
+        res.redirect(`/search/${req.params.id}`)
       })
       .catch(err => {
         res
@@ -157,5 +167,29 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.post("/:id/delete", (req, res) => {
+    console.log(req.body);
+    const creation_date = new Date().toISOString();
+    let queryParams = [req.body.name, req.body.description, req.body.price, req.body.image_url, 1, creation_date];
+    const queryString =
+    `
+      INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `;
+    db.query(queryString, queryParams)
+      .then(data => {
+        const items = data.rows;
+        console.log(items);
+        res.render("index");
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+
   return router;
 };
