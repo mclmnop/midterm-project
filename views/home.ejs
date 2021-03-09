@@ -141,7 +141,7 @@
 
     <!-- User Favourites -->
     <% if (userID) { %>
-     
+
     <section class="pt-5 pb-5">
       <div class="container">
         <div class="row">
@@ -149,17 +149,34 @@
                 <h3 class="mb-3">Your Favourite Items</h3>
             </div>
             <div class="col-6 text-right">
+              <% if (userFavourites.length !== 0) { %>
                 <a class="btn btn-primary mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
                     <i class="fa fa-arrow-left"></i>
                 </a>
                 <a class="btn btn-primary mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
                     <i class="fa fa-arrow-right"></i>
                 </a>
+                <% } %>
             </div>
             <div class="col-12">
                 <div id="userFavouritesCarousel" class="carousel slide" data-ride="carousel">
 
                     <div class="carousel-inner">
+                      <!-- If the user has no favourites: -->
+                      <% if (userFavourites.length === 0) { %>
+                        <div class="carousel-item active">
+                          <div class="row justify-content-center">
+                            <div class="col-md-4 mb-3">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h4 class="card-title">Add some Favourites!</h4>
+                                  <p class="card-text">When you do, we'll show them to you here!</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                       </div>
+                        <% } %>
                       <% for (let index = 0; index < userFavourites.length; index++) {%>
                        <% if (index === 0) { %>
                         <div class="carousel-item active">
