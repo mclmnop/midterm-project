@@ -20,17 +20,11 @@
 
   <body>
     <div class="messages-container">
-    <% for (let message of messages) {%>
-      <h4><%= message.name %></h4>
-      <p><%= message.message_content %></p>
+    <% for (let message of data.rows) {%>
+      <h4><%= message.sender_name %></h4>
+      <p><%= message.receiver_name %></p>
+      <p><%= message.message_content%></p>
     <%}%>
-    </div>
-    <div class="message-post">
-      <form method="POST" action="/messages" class="form-inline message-form">
-        <input class="form-control" type="text" placeholder="Type your message here..." name="messageContent" />
-        <input class="form-control" type="text" placeholder="Item Name" name="itemName" />
-        <button class="btn btn-primary login-button" type="submit">Message</button>
-      </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
