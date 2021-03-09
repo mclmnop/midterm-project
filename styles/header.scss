@@ -4,13 +4,14 @@
 }
 .user-info {
   display:flex;
-  width: 10%;
+  width: 20%;
   justify-content: space-between;
+  align-items: center;
 }
 
 .form-3 {
   width: 500px;
-  justify-content: center
+  justify-content: space-between;
 }
 
 .form-input {

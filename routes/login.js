@@ -4,9 +4,10 @@ const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    res.render("login");
+    const userId = req.session.user_id;
+    const templateVars = { userId };
+    res.render("login", templateVars);
   })
-
 
 
   router.post("/", (req, res) => {
@@ -18,17 +19,14 @@ module.exports = (db) => {
     `, [email])
       .then(user => {
         if (user.rows[0]) {
-          // commentedout password comparison goes here
-          res.redirect("/");
-          return;
+          if (bcrypt.compareSync(password, user.rows[0].password)) {
+            req.session.userId = user.rows[0].id;
+            res.redirect("/");
+            return;
+          }
         }
         res.send({error: "Log In error."});
       })
   });
   return router;
 };
-
-
-// if (bcrypt.compareSync(password, user.rows[0].password)) {
-//   return user.rows[0];
-// }

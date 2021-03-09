@@ -7,3 +7,25 @@ body {
 body h1 {
   color: #244751;
 }
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+}
+.login-form {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.form-control {
+  margin: 5px;
+}
+
+.login-button{
+  margin: 5px;
+}
