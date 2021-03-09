@@ -36,17 +36,24 @@ module.exports = (db) => {
     JOIN favourites ON item_id = items.id
     WHERE favourites.user_id = $1;
     `;
+
+    const isVendor =
+    `SELECT is_vendor FROM users
+    WHERE id = $1;
+    `;
     Promise.all([
       db.query(featuredItemsQuery, []),
-      db.query(userFavouritesQuery, [userID])
+      db.query(userFavouritesQuery, [userID]),
+      db.query(isVendor, [userID])
     ])
       .then(data => {
         const items = data[0].rows;
         const featuredItems = splitArrayToGroupsOfThree(items);
         const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
-        console.log('👁result allo', userFavourites);
+        const isVendor = data[2].rows[0].is_vendor;
+        console.log('👁result allo', isVendor);
         //res.json({ items });
-        const templateVars = { featuredItems, userFavourites, userID };
+        const templateVars = { featuredItems, userFavourites, isVendor, userID };
         res.render('home', templateVars);
       })
       .catch(err => {
