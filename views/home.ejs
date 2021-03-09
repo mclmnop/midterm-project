@@ -16,7 +16,7 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
-    <!-- Bootstrap scrips -->
+    <!-- Bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -75,35 +75,56 @@
                 <div id="featuredItemsCarousel" class="carousel slide" data-ride="carousel">
 
                     <div class="carousel-inner">
+                      <% for (let itemGroup of featuredItems) {%>
                         <div class="carousel-item active">
-                            <div class="row">
+                          <div class="row">
 
-                              <% for (let item in featuredItems) {%>
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                      <img class="img-fluid" alt="<%= featuredItems[item].name %>" src=" <%= featuredItems[item].image_url %>">
-                                      <div class="card-body">
-                                        <h4 class="card-title"> <%= featuredItems[item].name %></h4>
-                                        <p class="card-text"><%= featuredItems[item].description %></p>
+                            <% if (itemGroup[0]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <img class="img-fluid" alt="<%= itemGroup[0].name %>" src=" <%= itemGroup[0].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= itemGroup[0].name %></h4>
+                                    <p class="card-text"><%= itemGroup[0].description %></p>
 
-                                      </div>
-
-                                    </div>
                                   </div>
-                                  <% } %>
 
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3d2e8a2039c06dd26db977fe6ac6186a">
-                                        <div class="card-body">
-                                            <h4 class="card-title">Card 3 Row 1</h4>
-                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                                        </div>
-                                    </div>
                                 </div>
+                              </div>
+                              <% } %>
+
+                            <% if (itemGroup[1]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <img class="img-fluid" alt="<%= itemGroup[1].name %>" src=" <%= itemGroup[1].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= itemGroup[1].name %></h4>
+                                    <p class="card-text"><%= itemGroup[1].description %></p>
+
+                                  </div>
+
+                                </div>
+                              </div>
+                              <% } %>
+
+                              <% if (itemGroup[2]) { %>
+                                <div class="col-md-4 mb-3">
+                                  <div class="card">
+                                    <img class="img-fluid" alt="<%= itemGroup[2].name %>" src=" <%= itemGroup[2].image_url %>">
+                                    <div class="card-body">
+                                      <h4 class="card-title"> <%= itemGroup[2].name %></h4>
+                                      <p class="card-text"><%= itemGroup[2].description %></p>
+
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <% } %>
+
+
 
                             </div>
+                          <% } %>
                         </div>
                         <div class="carousel-item">
                             <div class="row">
