@@ -114,13 +114,15 @@ module.exports = (db) => {
     UPDATE items
     SET `;
 
+    //if mark as sold button was hit
+
     //arrays to update multiple columns
     let keys = [];
     let values = [];
 
     //looping through body to remove null values
     for (let key in req.body) {
-      if (req.body[key] !== null) {
+      if (req.body[key] !== '') {
         keys.push(key);
         queryParams.push(req.body[key]);
         values.push(`$${queryParams.length}`);
@@ -128,11 +130,21 @@ module.exports = (db) => {
     }
 
     //adding columns to be modified
-    queryString += `
+    if (queryParams.length === 2){
+      queryString += `
+      ${keys} = (${values})
+      WHERE id = $1
+      RETURNING *
+    `
+    } else {
+      queryString += `
       (${keys}) = (${values})
       WHERE id = $1
       RETURNING *
-    `;
+    `
+    }
+
+    console.log(queryString, queryParams)
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;

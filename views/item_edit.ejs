@@ -52,15 +52,16 @@
 
       <div class = "messageToVendor">
         <div class ="form">
-          <form method="POST" action="/register" class="form-inline form-second">
+          <form method="POST" action="/search/<%= searchResult.id%>/edit" class="form-inline form-second">
             <input class="form-control" type="text" placeholder="Name" name="name" />
             <input class="form-control" type="text" placeholder="Description" name="description" />
-            <input class="form-control" type="text" placeholder="Price" name="password" />
+            <input class="form-control" type="text" placeholder="Price" name="price" />
             <input class="form-control" type="text" placeholder="Image URL" name="image_url" />
-            <button class="btn btn-primary" type="submit">Mark as sold</button>
-            <button class="btn btn-primary" type="submit">Remove</button>
+            <button class="btn btn-primary" type="submit">Submit changes</button>
             <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
           </form>
+          <button class="btn btn-primary" type="submit">Mark as sold</button>
+          <button class="btn btn-primary" type="submit">Remove</button>
         </div>
       </div>
   </div>
