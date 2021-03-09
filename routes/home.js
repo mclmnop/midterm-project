@@ -17,9 +17,20 @@ module.exports = (db) => {
     db.query(queryString, [])
       .then(data => {
         const items = data.rows;
-        console.log('👁result allo', items);
+        let itemsArray = [];
+        let subArray = [];
+        for (let i = 0; i < items.length; i++) {
+          subArray.push(items[i]);
+          if ((i + 1) % 3 === 0 && i > 0) {
+            itemsArray.push(subArray);
+            subArray = [];
+          } else if (i + 1 === items.length && subArray.length !== 0) {
+            itemsArray.push(subArray);
+          }
+        }
+        console.log('👁result allo', itemsArray);
         //res.json({ items });
-        const templateVars = { featuredItems: items };
+        const templateVars = { featuredItems: itemsArray };
         res.render('home', templateVars);
       })
       .catch(err => {
