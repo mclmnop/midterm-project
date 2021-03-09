@@ -23,19 +23,30 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const cookie = req.session.userId;
     console.log("👉🏻",cookie);
-    const queryString =
+    const featuredItemsQuery =
     `SELECT DISTINCT items.* FROM items
     JOIN favourites ON items.id = favourites.item_id
+    WHERE items.is_active = 'true'
     GROUP BY items.id
     LIMIT 10;
     `;
-    db.query(queryString, [])
+
+    const userFavouritesQuery =
+    `SELECT * FROM items
+    JOIN favourites ON item_id = items.id
+    WHERE favourites.user_id = $1;
+    `;
+    Promise.all([
+      db.query(featuredItemsQuery, []),
+      db.query(userFavouritesQuery, [cookie])
+    ])
       .then(data => {
-        const items = data.rows;
-        const itemsArray = splitArrayToGroupsOfThree(items);
+        const items = data[0].rows;
+        const featuredItems = splitArrayToGroupsOfThree(items);
+        const userFavourites = data[1].rows;
         // console.log('👁result allo', itemsArray);
         //res.json({ items });
-        const templateVars = { featuredItems: itemsArray, cookie };
+        const templateVars = { featuredItems, userFavourites, cookie };
         res.render('home', templateVars);
       })
       .catch(err => {
