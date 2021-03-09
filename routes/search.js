@@ -49,7 +49,9 @@ module.exports = (db) => {
       SELECT items.*, users.name as userfirstlastname
       FROM items
       JOIN users ON items.vendor_id = users.id
-      WHERE items.id = $1`, [req.params.id])
+      WHERE items.id = $1
+      AND is_active = 'true'
+      `, [req.params.id])
     .then(data => {
       const items = data.rows[0];
       console.log(items);
@@ -66,6 +68,13 @@ module.exports = (db) => {
   });
 
   router.get("/:id/edit", (req, res) => {
+    const userId = req.session.userId;
+
+    if (!userId) {
+      //res.writeHead(404, {"Content-Type": "text/plain"});
+      res.send('You can\'t access this page')
+      return;
+    }
     db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
     .then(data => {
       const items = data.rows[0];
@@ -178,8 +187,8 @@ module.exports = (db) => {
     let queryParams = [req.params.id];
     const queryString =
     `
-      DELETE
-      FROM items
+      UPDATE items
+      SET is_active = 'false'
       WHERE id = $1
     `;
     db.query(queryString, queryParams)
