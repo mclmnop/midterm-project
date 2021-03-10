@@ -169,21 +169,23 @@ module.exports = (db) => {
   });
 
   //needs req.body with values (name, description, price, image_url, vendor_id,), works except for vendor Id
-  router.post("/new", (req, res) => {
+  router.post("/item/new", (req, res) => {
     console.log(req.body);
     const creation_date = new Date().toISOString();
-    let queryParams = [req.body.name, req.body.description, req.body.price, req.body.image_url, 1, creation_date];
+    const vendor_id = req.session.id;
+    let queryParams = [req.body.name, req.body.description, req.body.price * 100, req.body.image_url, vendor_id, creation_date];
     const queryString =
     `
       INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `;
+    console.log(queryString, queryParams)
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
         console.log(items);
-        res.render("index");
+        res.redirect("/home");
       })
       .catch(err => {
         res
