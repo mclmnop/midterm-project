@@ -84,7 +84,7 @@ module.exports = (db) => {
     const userID = req.session.userId;
 
     if (!userID) {
-      res.send('You can\'t access this page')
+      res.redirect('/login')
       return;
     }
     const getItemInfo =
