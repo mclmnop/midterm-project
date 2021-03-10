@@ -14,36 +14,16 @@
 const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
+const { searchWithPrice } = require('../lib/db_helpers')
 
 module.exports = (db) => {
 
   //outputs searched item for now works with a name
   router.get("/", (req, res) => {
-    console.log(req.query)
-    const searchWord = "%" + req.query.search + "%";
-    let queryParams = [];
-    queryParams.push(searchWord);
-    if (req.query.search_min_price) {
-      queryParams.push(req.query.search_min_price * 100)
-    } else {
-      queryParams.push(0)
-    }
-    if (req.query.search_max_price) {
-      queryParams.push(req.query.search_max_price * 100)
-    } else {
-      queryParams.push(2147483647)
-    }
-    const queryString =
-    `
-      SELECT *
-      FROM items
-      WHERE (name LIKE $1
-      OR description LIKE $1)
-      AND price BETWEEN $2 AND $3
-      AND is_active = 'true'
-    `;
-    console.log(queryString, queryParams)
-    db.query(queryString, queryParams)
+
+    const query = searchWithPrice(req)
+
+    db.query(query[0], query[1])
       .then(data => {
         const items = data.rows;
         console.log('result allo', items)
