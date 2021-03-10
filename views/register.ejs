@@ -31,24 +31,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Righteous&display=swap" rel="stylesheet">
   </head>
 
-  <body>
+  <body></body>
     <div class ="registration-container">
-      <h3>Registration Page</h3>
-      <div class ="form">
-        <form method="POST" action="/register" class="form-inline form-second">
-          <input class="form-control" type="text" placeholder="Name" name="name" />
-          <input class="form-control" type="email" placeholder="Email" name="email" />
-          <input class="form-control" type="password" placeholder="password" name="password" />
-          <input class="form-control" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required name="phone" />
-          <input class="form-control" type="text" placeholder="street" name="street" />
-          <input class="form-control" type="text" placeholder="city" name="city" />
-          <input class="form-control" type="text" placeholder="province" name="province" />
-          <input class="form-control" type="text" placeholder="country" name="country" />
-          <input class="form-control" type="text" placeholder="postal code" name="postalCode" />
-          <input type="checkbox" name="isVendor" checked>Check if you are selling?</input>
-          <button class="btn btn-primary" type="submit">Register</button>
-          <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
-        </form>
+      <div class="complete-form">
+        <h3>Registration Page</h3>
+        <div class ="form">
+          <form method="POST" action="/register" class="form-inline form-second">
+            <input class="form-control" type="text" placeholder="Name" name="name" />
+            <input class="form-control" type="email" placeholder="Email" name="email" />
+            <input class="form-control" type="password" placeholder="password" name="password" />
+            <input class="form-control" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required name="phone" />
+            <input class="form-control" type="text" placeholder="street" name="street" />
+            <input class="form-control" type="text" placeholder="city" name="city" />
+            <input class="form-control" type="text" placeholder="province" name="province" />
+            <input class="form-control" type="text" placeholder="country" name="country" />
+            <input class="form-control" type="text" placeholder="postal code" name="postalCode" />
+            <input type="checkbox" name="isVendor" checked>Check if you are selling?</input>
+            <button class="btn btn-primary" type="submit">Register</button>
+            <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
+          </form>
+        </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
