@@ -49,7 +49,7 @@ module.exports = (db) => {
       WHERE items.id = $1
       AND is_active = 'true'
     `
-    const isVendor =
+    let isVendor =
     `
       SELECT is_vendor
       FROM users
@@ -61,8 +61,13 @@ module.exports = (db) => {
     ])
     .then(data => {
       const items = data[0].rows[0];
-      const templateVars = { searchResult: items, userID }
-      if (data[1].rows[0].is_vendor === true){
+      if(!userID){
+        isVendor = false;
+      } else {
+        isVendor = data[1].rows[0].is_vendor;
+      }
+      const templateVars = { searchResult: items, userID, isVendor }
+      if (isVendor){
         res.render('itemSearched_vendor', templateVars)
       } else {
         res.render('itemSearched_user', templateVars)
@@ -76,10 +81,10 @@ module.exports = (db) => {
   });
 
   router.get("/:id/edit", (req, res) => {
-    const userId = req.session.userId;
+    const userID = req.session.userId;
 
-    if (!userId) {
-      res.send('You can\'t access this page')
+    if (!userID) {
+      res.redirect('/login')
       return;
     }
     const getItemInfo =
@@ -96,19 +101,19 @@ module.exports = (db) => {
     `;
     Promise.all([
       db.query(getItemInfo, [req.params.id]),
-      db.query(isVendor, [userId])
+      db.query(isVendor, [userID])
     ])
     //db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
     .then(data => {
       const items = data[0].rows[0];
       console.log(items);
       //res.json({ items });
-      const templateVars = { searchResult: items }
+      const templateVars = { searchResult: items, userID }
       console.log('data rows 1',data[1].rows[0].is_vendor)
       if (data[1].rows[0].is_vendor === true){
         res.render('item_edit', templateVars)
       } else {
-        res.send('You can\'t access this page')
+        res.redirect('/home')
       }
 
     })
@@ -203,7 +208,7 @@ module.exports = (db) => {
         const items = data.rows;
         console.log(items);
         //res.json({ items });
-        res.redirect(`/search/${req.params.id}`)
+        res.redirect(`/items/${req.params.id}`)
       })
       .catch(err => {
         res

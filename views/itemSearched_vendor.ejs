@@ -34,7 +34,7 @@
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <div class="well search-result">
                       <div class="row">
-                          <a href="/search/<%= searchResult.id%>/edit">
+                          <a href="/items/<%= searchResult.id%>/edit">
                               <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
                                   <img class="img-responsive" src="<%= searchResult.image_url%>" alt="">
                               </div>
@@ -43,7 +43,7 @@
                                   <p><%= searchResult.description%></p>
                                   <p>Price :<%= searchResult.price / 100 %> $$$</p>
                                   <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
-                                  <button href="/search/<%= searchResult.id%>/edit" class="btn btn-primary" >edit</button>
+                                  <button href="/items/<%= searchResult.id%>/edit" class="btn btn-primary" >edit</button>
                               </div>
                           </a>
                       </div>
