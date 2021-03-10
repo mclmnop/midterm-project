@@ -59,6 +59,7 @@ module.exports = (db) => {
         const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
         const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
         const isVendor = data[3].rows[0].is_vendor;
+
         console.log('👁isVendor', isVendor, '👄', vendorItems);
         //res.json({ items });
         const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
