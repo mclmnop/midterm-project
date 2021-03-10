@@ -14,7 +14,7 @@
 const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
-const { searchWithPrice, checkifVendor } = require('../lib/db_helpers')
+const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers')
 
 module.exports = (db) => {
 
@@ -22,21 +22,21 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userID = req.session.userId;
 
+    const isVendor =`
+      SELECT *
+      FROM users
+      WHERE id = $1;
+    `;
 
     const query = searchWithPrice(req)
     Promise.all([
       db.query(query[0], query[1]),
-      checkifVendor(userID, db)
+      db.query(isVendor, [userID]),
     ])
       .then(data => {
         const items = data[0].rows;
-        //console.log('result allo', items, 'isVendore sest tu rendu?', data[0].rows[0])
-
-        const isVendor = data[1].rows[0].is_vendor;
-
-        //const isVendor = data[1].rows[0].is_vendor;
+        const isVendor = checkVendorIfCookie(data[1], userID)
         const templateVars = { searchResult: items, userID, isVendor }
-        console.log('vendoooooor 👉', isVendor, userID)
         res.render('items_search', templateVars)
       })
       .catch(err => {
