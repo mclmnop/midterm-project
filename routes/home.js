@@ -45,6 +45,8 @@ module.exports = (db) => {
     const vendorItemsQuery = `
     SELECT * FROM items
     WHERE vendor_id = $1
+    AND is_active = 'true'
+    AND is_sold = 'false';
     `;
     Promise.all([
       db.query(featuredItemsQuery, []),

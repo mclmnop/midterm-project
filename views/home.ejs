@@ -251,18 +251,35 @@
                 <h3 class="mb-3">My Items</h3>
             </div>
             <div class="col-6 text-right">
-                <a class="btn btn-primary mb-3 mr-1" href="#featuredItemsCarousel" role="button" data-slide="prev">
+              <% if (vendorItems.length !== 0) { %>
+                <a class="btn btn-primary mb-3 mr-1" href="#vendorItemsCarousel" role="button" data-slide="prev">
                     <i class="fa fa-arrow-left"></i>
                 </a>
-                <a class="btn btn-primary mb-3 " href="#featuredItemsCarousel" role="button" data-slide="next">
+                <a class="btn btn-primary mb-3 " href="#vendorItemsCarousel" role="button" data-slide="next">
                     <i class="fa fa-arrow-right"></i>
                 </a>
+                <% } %>
             </div>
             <div class="col-12">
-                <div id="featuredItemsCarousel" class="carousel slide" data-ride="carousel">
+                <div id="vendorItemsCarousel" class="carousel slide" data-ride="carousel">
 
                     <div class="carousel-inner">
-                      <% for (let index = 0; index < featuredItems.length; index++) {%>
+                      <!-- If the vendor has no items: -->
+                      <% if (vendorItems.length === 0) { %>
+                        <div class="carousel-item active">
+                          <div class="row justify-content-center">
+                            <div class="col-md-4 mb-3">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h4 class="card-title">Start Selling Something!</h4>
+                                  <p class="card-text">When you list items for sale, we'll show them to you here!</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                       </div>
+                        <% } %>
+                      <% for (let index = 0; index < vendorItems.length; index++) {%>
                        <% if (index === 0) { %>
                         <div class="carousel-item active">
                         <%} %>
@@ -271,13 +288,13 @@
                         <% } %>
                           <div class="row">
 
-                            <% if (featuredItems[index][0]) { %>
+                            <% if (vendorItems[index][0]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <img class="img-fluid" alt="<%= featuredItems[index][0].name %>" src=" <%= featuredItems[index][0].image_url %>">
+                                  <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
                                   <div class="card-body">
-                                    <h4 class="card-title"> <%= featuredItems[index][0].name %></h4>
-                                    <p class="card-text"><%= featuredItems[index][0].description %></p>
+                                    <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
+                                    <p class="card-text"><%= vendorItems[index][0].description %></p>
 
                                   </div>
 
@@ -285,13 +302,13 @@
                               </div>
                               <% } %>
 
-                            <% if (featuredItems[index][1]) { %>
+                            <% if (vendorItems[index][1]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <img class="img-fluid" alt="<%= featuredItems[index][1].name %>" src=" <%= featuredItems[index][1].image_url %>">
+                                  <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
                                   <div class="card-body">
-                                    <h4 class="card-title"> <%= featuredItems[index][1].name %></h4>
-                                    <p class="card-text"><%= featuredItems[index][1].description %></p>
+                                    <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
+                                    <p class="card-text"><%= vendorItems[index][1].description %></p>
 
                                   </div>
 
@@ -299,13 +316,13 @@
                               </div>
                               <% } %>
 
-                              <% if (featuredItems[index][2]) { %>
+                              <% if (vendorItems[index][2]) { %>
                                 <div class="col-md-4 mb-3">
                                   <div class="card">
-                                    <img class="img-fluid" alt="<%= featuredItems[index][2].name %>" src=" <%= featuredItems[index][2].image_url %>">
+                                    <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
                                     <div class="card-body">
-                                      <h4 class="card-title"> <%= featuredItems[index][2].name %></h4>
-                                      <p class="card-text"><%= featuredItems[index][2].description %></p>
+                                      <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>
+                                      <p class="card-text"><%= vendorItems[index][2].description %></p>
 
                                     </div>
 
