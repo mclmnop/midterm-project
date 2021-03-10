@@ -47,6 +47,16 @@
                                   <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
                               </div>
                           </a>
+                          <% if (userID && !isVendor) { %>
+                            <div class="form-check">
+                              <form method="POST" action="/items/<%= searchResult[item].id%>/favourites">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
+                                <label class="form-check-label" for="defaultCheck1">
+                                  Add as favourite
+                                </label>
+                              </form>
+                            </div>
+                          <%}%>
                       </div>
                   </div>
               </div>

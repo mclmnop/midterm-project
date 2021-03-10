@@ -236,7 +236,7 @@ module.exports = (db) => {
       `
       queryParams = [userID];
     }
-    //adding columns to be modified
+    //adding columns to be modified, if only one argument, remvoeve parenthesis in query
       else if (queryParams.length === 2){
       queryString += `
       ${keys} = (${values})
@@ -283,5 +283,28 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  router.post("/:id/favourites", (req, res) => {
+    const item_id = req.params.id;
+    const user_id = req.session.userId;
+
+    const queryString =
+    `
+      INSERT INTO
+      favourites(item_id, user_id)
+      VALUES ($1, $2)
+    `;
+    db.query(queryString, [item_id, user_id])
+      .then(data => {
+        res.redirect('/profile')
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+
   return router;
 };
