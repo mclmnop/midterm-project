@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    const userId = req.session.user_id;
-    const templateVars = { userId };
+    const userID = req.session.user_id;
+    const templateVars = { userID };
     res.render("login", templateVars);
   })
 

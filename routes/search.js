@@ -20,6 +20,7 @@ module.exports = (db) => {
 
   //outputs searched item for now works with a name
   router.get("/", (req, res) => {
+    const userID = req.session.userId;
 
     const query = searchWithPrice(req)
 
@@ -27,7 +28,7 @@ module.exports = (db) => {
       .then(data => {
         const items = data.rows;
         console.log('result allo', items)
-        const templateVars = { searchResult: items }
+        const templateVars = { searchResult: items, userID }
         res.render('search', templateVars)
       })
       .catch(err => {
@@ -39,6 +40,7 @@ module.exports = (db) => {
 
   //get item ID info with vendor name
   router.get("/:id", (req, res) => {
+    const userID = req.session.userId;
     db.query(`
       SELECT items.*, users.name as userfirstlastname
       FROM items
@@ -51,7 +53,7 @@ module.exports = (db) => {
       console.log(items);
       //res.json({ items });
 
-      const templateVars = { searchResult: items }
+      const templateVars = { searchResult: items, userID }
       res.render('itemSearched_user', templateVars)
     })
     .catch(err => {

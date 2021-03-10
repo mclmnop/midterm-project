@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Login Page</title>
+    <title>Messages</title>
     <%- include('partials/_header') %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
@@ -20,17 +20,14 @@
 
   <body>
     <div class="messages-container">
-    <% for (let message of messages) {%>
-      <h4><%= message.name %></h4>
-      <p><%= message.message_content %></p>
+    <% for (let message of data.rows) {%>
+      <div class="main-container">
+        <div class="container">
+          <p><a href="/messages/<%= message.item_id %>/vendors/<%= message.vendor_id %>"><p><%= message.name %></p></a>
+        </div>
+      </div>
+
     <%}%>
-    </div>
-    <div class="message-post">
-      <form method="POST" action="/messages" class="form-inline message-form">
-        <input class="form-control" type="text" placeholder="Type your message here..." name="messageContent" />
-        <input class="form-control" type="text" placeholder="Item Name" name="itemName" />
-        <button class="btn btn-primary login-button" type="submit">Message</button>
-      </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

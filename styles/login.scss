@@ -29,3 +29,17 @@ body h1 {
 .login-button{
   margin: 5px;
 }
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
