@@ -2,7 +2,25 @@
 <html lang="en">
   <head>
     <title>Home Page</title>
-    <%- include('partials/_header') %>
+    <header>
+      <nav class="navbar">
+        <a href ="/"><button class="logo" href="/">Vend</button></a>
+        <% if (!userID) { %>
+          <div class="user-info">
+            <a href="/login"><p>Log In</p></a>
+            <a href="/register"><p>Register</p></a>
+          </div>
+        <% } else {%>
+          <div class="user-info">
+            <a href="/profile"><p>Your Profile</p></a>
+            <a href="/messages"><p>Messages</p></a>
+            <form method="POST", action="/logout" class="form-inline">
+              <button type= "submit" class="">Logout</button>
+            </form>
+          </div>
+        <% }%>
+      </nav>
+    </header>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />

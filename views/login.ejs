@@ -2,7 +2,19 @@
 <html lang="en">
   <head>
     <title>Login Page</title>
-    <%- include('partials/_header') %>
+    <header>
+      <nav class="navbar">
+        <a href ="/"><button class="logo" href="/">Vend</button></a>
+        <div>
+          <form method="GET" action="/search" class="form-inline form-3">
+            <input class="form-control form-input" type="text" placeholder="Search" name="search" />
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+        <div class="user-info">
+        </div>
+      </nav>
+    </header>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />

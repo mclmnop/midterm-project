@@ -7,13 +7,19 @@
         <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
       </form>
     </div>
-    <div class="user-info">
-      <a href="/login"><p>Log In</p></a>
-      <a href="/register"><p>Register</p></a>
-      <a href="/messages"><p>Messages</p></a>
-      <form method="POST", action="/logout" class="form-inline">
-        <button type= "submit" class="">Logout</button>
-      </form>
-    </div>
+    <% if (!userID) { %>
+      <div class="user-info">
+        <a href="/login"><p>Log In</p></a>
+        <a href="/register"><p>Register</p></a>
+      </div>
+    <% } else {%>
+      <div class="user-info">
+        <a href="/profile"><p>Your Profile</p></a>
+        <a href="/messages"><p>Messages</p></a>
+        <form method="POST", action="/logout" class="form-inline">
+          <button type= "submit" class="">Logout</button>
+        </form>
+      </div>
+    <% }%>
   </nav>
 </header>

@@ -4,17 +4,17 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    const cookie = req.session.userId;
+    const userID = req.session.userId;
     db.query(`
     SELECT users.name, count(messages.id), messages.item_id, messages.vendor_id FROM users
         JOIN messages on users.id = messages.vendor_id
         WHERE messages.user_id = $1
         GROUP BY users.id, messages.item_id, messages.vendor_id;
-    `, [cookie])
+    `, [userID])
       .then(data => {
 
         console.log(data.rows);
-        const templateVars = { data, cookie };
+        const templateVars = { data, userID };
         res.render("messages", templateVars);
       })
       .catch(err => {
@@ -29,7 +29,6 @@ module.exports = (db) => {
     const userId = req.session.userId;
 
     const { message } = req.body;
-
     if (userId) {
       db.query(`INSERT INTO messages (user_id, message_content, item_id, vendor_id) SELECT $1, $2, $3, vendor_id FROM items WHERE items.id = $3;`, [userId, message, req.params.id])
       .then(result => {
@@ -45,9 +44,13 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
     }
+    else {
+      return res.send("why u no log in")
+    }
   });
 
   router.get("/:itemId/vendors/:vendorId/", (req, res) => {
+    const userID = req.session.userId;
     const queryString = `SELECT users.name, array_agg(messages.message_content) as messages FROM users
     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
     WHERE item_id =$1 AND vendor_id = $2 AND user_id = $3
@@ -56,10 +59,9 @@ module.exports = (db) => {
       .then(data => {
         const messages = data.rows[0].messages;
         console.log(data.rows[0].messages);
-        const templateVars = { messages };
+        const templateVars = { messages, userID };
         res.render("messageThread", templateVars);
       })
-
   })
 
   return router;
