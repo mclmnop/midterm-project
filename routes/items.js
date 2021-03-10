@@ -22,6 +22,7 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userID = req.session.userId;
 
+
     const query = searchWithPrice(req)
     Promise.all([
       db.query(query[0], query[1]),
@@ -29,9 +30,13 @@ module.exports = (db) => {
     ])
       .then(data => {
         const items = data[0].rows;
-        console.log('result allo', items, 'isVendore sest tu rendu?', data[0].rows[0])
-        const isVendor = data[0].rows[0].is_vendor;
+        //console.log('result allo', items, 'isVendore sest tu rendu?', data[0].rows[0])
+
+        const isVendor = data[1].rows[0].is_vendor;
+
+        //const isVendor = data[1].rows[0].is_vendor;
         const templateVars = { searchResult: items, userID, isVendor }
+        console.log('vendoooooor 👉', isVendor, userID)
         res.render('items_search', templateVars)
       })
       .catch(err => {
