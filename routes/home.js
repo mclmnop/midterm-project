@@ -17,6 +17,15 @@ const splitArrayToGroupsOfThree = (items) => {
   return itemsArray;
 };
 
+const checkVendorIfCookie = (data, userID) => {
+  if (userID) {
+    return data[3].rows[0].is_vendor;
+  }
+  else {
+    return false;
+  }
+};
+
 module.exports = (db) => {
 
   // Get the 10 most favourited items
@@ -53,12 +62,13 @@ module.exports = (db) => {
       db.query(userFavouritesQuery, [userID]),
       db.query(vendorItemsQuery, [userID]),
       db.query(isVendor, [userID])
+
     ])
       .then(data => {
         const featuredItems = splitArrayToGroupsOfThree(data[0].rows);
         const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
         const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
-        const isVendor = data[3].rows[0].is_vendor;
+        const isVendor = checkVendorIfCookie(data, userID);
 
         console.log('👁isVendor', isVendor, '👄', vendorItems);
         //res.json({ items });
