@@ -25,6 +25,8 @@ module.exports = (db) => {
   });
 
 
+
+
   router.post("/:id/new", (req, res) => {
     const userId = req.session.userId;
 
@@ -50,7 +52,38 @@ module.exports = (db) => {
     }
   });
 
+
+  router.post("/user/:vendorID/:itemID/new", (req, res) => {
+    const userID = req.session.userId;
+    const itemID = req.params.itemID;
+    const vendorID = req.params.vendorID;
+
+
+    const { message } = req.body;
+    let time = new Date();
+    if (userID) {
+      db.query(`INSERT INTO messages (user_id, vendor_id, item_id, message_content, date_created) VALUES ($1, $2, $3, $4, $5)`, [userID, vendorID, itemID, message, time])
+      .then(result => {
+        //need to discuss what goes inside the message form
+        console.log(result)
+        const message = result;
+        console.log('rows after insert ', message)
+        return res.redirect("/messages");
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+    }
+    else {
+      return res.send("why u no log in")
+    }
+  });
+
   router.get("/:itemId/vendors/:vendorId/", (req, res) => {
+    const itemID = req.params.itemId;
+    const vendorID = req.params.vendorId;
     const userID = req.session.userId;
     const queryString = `SELECT users.name, array_agg(messages.message_content) as messages, array_agg(messages.date_created) as times FROM users
     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
@@ -62,7 +95,7 @@ module.exports = (db) => {
         const times = data.rows[0].times;
         console.log(data.rows[0].messages);
         console.log(data.rows[0].times);
-        const templateVars = { messages, userID, times };
+        const templateVars = { messages, userID, times, itemID, vendorID };
         res.render("messageThread", templateVars);
       })
   })

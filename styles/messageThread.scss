@@ -12,11 +12,19 @@
   align-items: center;
 }
 
+.messageToVendor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .darker {
   border-color: #ccc;
   background-color: #ddd;
 }
-
+.form {
+  width: 50%;
+}
 
 .container::after {
   content: "";
