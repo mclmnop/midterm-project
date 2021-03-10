@@ -29,7 +29,7 @@ module.exports = (db) => {
         const items = data.rows;
         console.log('result allo', items)
         const templateVars = { searchResult: items, userID }
-        res.render('search', templateVars)
+        res.render('items_search', templateVars)
       })
       .catch(err => {
         res
@@ -112,6 +112,50 @@ module.exports = (db) => {
       console.log('data rows 1',data[1].rows[0].is_vendor)
       if (data[1].rows[0].is_vendor === true){
         res.render('item_edit', templateVars)
+      } else {
+        res.redirect('/home')
+      }
+
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+
+  router.get("/item/new", (req, res) => {
+    const userID = req.session.userId;
+
+    if (!userID) {
+      res.redirect('/login')
+      return;
+    }
+    const getItemInfo =
+    `
+      SELECT *
+      FROM items
+      WHERE id = $1
+    `
+    const isVendor =
+    `
+      SELECT is_vendor
+      FROM users
+      WHERE id = $1;
+    `;
+    Promise.all([
+      db.query(getItemInfo, [req.params.id]),
+      db.query(isVendor, [userID])
+    ])
+    //db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
+    .then(data => {
+      const items = data[0].rows[0];
+      console.log(items);
+      //res.json({ items });
+      const templateVars = { searchResult: items, userID }
+      console.log('data rows 1',data[1].rows[0].is_vendor)
+      if (data[1].rows[0].is_vendor === true){
+        res.render('item_new', templateVars)
       } else {
         res.redirect('/home')
       }
