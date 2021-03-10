@@ -80,6 +80,6 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  console.log("👽");
+  // console.log("👽");
   return router;
 };

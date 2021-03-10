@@ -25,9 +25,29 @@ const checkVendorIfCookie = (data, userID) => {
   }
 };
 
+const removeNullValues = (body, params) => {
+  //arrays to update multiple columns
+  let keys = [];
+  let values = [];
+  //looping through body to remove null values
+  for (let key in body) {
+    if (body[key] !== '') {
+      if (key === 'price') {
+        keys.push(key);
+        params.push(body[key] * 100);
+        values.push(`$${params.length}`)
+      } else {
+        keys.push(key);
+        params.push(body[key]);
+        values.push(`$${params.length}`);
+      }
+    }
+  }
+ return [keys, values];
+};
+
 module.exports = (db) => {
 
-  // Get the 10 most favourited items
   router.get("/", (req, res) => {
     const userID = req.session.userId;
     console.log("👉🏻",userID);
@@ -77,7 +97,7 @@ module.exports = (db) => {
 
         console.log('👁userInfo', userInfo);
         //res.json({ items });
-        const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
+        const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userInfo, userID };
         res.render('profile', templateVars);
       })
       .catch(err => {
@@ -86,10 +106,48 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  console.log("👽");
+  console.log("🧿");
 
   router.post('/edit', (req, res) => {
-    let queryParams = [req.params.id];
+    let userID = req.session.userId;
+    console.log('💊', req.body);
+    console.log('🚬',userID);
+    let queryParams = [userID];
+    let queryString = `
+    UPDATE users
+    SET `;
+
+    let keysValues = removeNullValues(req.body, queryParams);
+    const keys = keysValues[0];
+    const values = keysValues[1];
+    console.log('🩹', keys, values);
+
+    //adding columns to be modified
+    if (queryParams.length === 2){
+      queryString += `
+      ${keys} = (${values})
+      WHERE id = $1
+      RETURNING *
+    `
+    } else {
+      queryString += `
+      (${keys}) = (${values})
+      WHERE id = $1
+      RETURNING *
+    `
+    }
+    console.log('🛡',queryString, queryParams);
+
+    db.query(queryString, queryParams)
+      .then(data => {
+        res.redirect('/profile');
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+
   });
 
 
