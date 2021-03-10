@@ -68,7 +68,7 @@ module.exports = (db) => {
         console.log(result)
         const message = result;
         console.log('rows after insert ', message)
-        return res.redirect("/messages");
+        return res.redirect("back");
       })
       .catch(err => {
         res

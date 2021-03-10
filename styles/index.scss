@@ -1,6 +1,7 @@
 .jumbotron-fluid   {
   background: rgb(255,255,255);
-background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(238,238,238,1) 41%);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(238,238,238,0.7) 41%);
+  padding: 4px;
 
 
 
@@ -8,11 +9,7 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(238,238,238,1) 
     font-family: 'Righteous', cursive;
   }
 }
-
-.jumbo {
-  background-image: url('/public/images/background-img3.jpg');
-}
-
 body {
-  background-image: url('/public/images/background-img3.jpg');
+  background-image: url('/images/background-img2.jpg');
+  background-size: cover;
 }
