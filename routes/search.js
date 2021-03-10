@@ -41,20 +41,32 @@ module.exports = (db) => {
   //get item ID info with vendor name
   router.get("/:id", (req, res) => {
     const userID = req.session.userId;
-    db.query(`
+    const getItemInfo =
+    `
       SELECT items.*, users.name as userfirstlastname
       FROM items
       JOIN users ON items.vendor_id = users.id
       WHERE items.id = $1
       AND is_active = 'true'
-      `, [req.params.id])
+    `
+    const isVendor =
+    `
+      SELECT is_vendor
+      FROM users
+      WHERE id = $1;
+    `;
+    Promise.all([
+      db.query(getItemInfo, [req.params.id]),
+      db.query(isVendor, [userID])
+    ])
     .then(data => {
-      const items = data.rows[0];
-      console.log(items);
-      //res.json({ items });
-
+      const items = data[0].rows[0];
       const templateVars = { searchResult: items, userID }
-      res.render('itemSearched_user', templateVars)
+      if (data[1].rows[0].is_vendor === true){
+        res.render('itemSearched_vendor', templateVars)
+      } else {
+        res.render('itemSearched_user', templateVars)
+      }
     })
     .catch(err => {
       res
@@ -63,22 +75,18 @@ module.exports = (db) => {
     });
   });
 
-
-
-
   router.get("/:id/edit", (req, res) => {
     const userId = req.session.userId;
 
     if (!userId) {
-      //res.writeHead(404, {"Content-Type": "text/plain"});
       res.send('You can\'t access this page')
       return;
     }
     const getItemInfo =
     `
-    SELECT *
-    FROM items
-    WHERE id = $1
+      SELECT *
+      FROM items
+      WHERE id = $1
     `
     const isVendor =
     `
