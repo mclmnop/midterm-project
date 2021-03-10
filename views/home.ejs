@@ -37,7 +37,7 @@
       <div class="container ">
         <form method="GET" action="/search" class="form text-center">
           <div class="form-group">
-            <input class="form-control-lg form-input" id="item_search" type="text" name="item_search" placeholder="Search">
+            <input class="form-control-lg form-input" id="item_search" type="text" name="search" placeholder="Search">
             <button class="btn btn-primary" type="submit">Search</button>
           </div>
           <div class="form-group form-inline mx-auto">
@@ -140,7 +140,7 @@
     </section>
 
     <!-- User Favourites -->
-    <% if (userID && !isVendort) { %>
+    <% if (userID && !isVendor) { %>
 
     <section class="pt-5 pb-5">
       <div class="container">
@@ -221,6 +221,91 @@
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
                                       <p class="card-text"><%= userFavourites[index][2].description %></p>
+
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <% } %>
+
+
+
+                            </div>
+                          </div>
+                          <% } %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <% } %>
+
+    <!-- Vendor Items -->
+    <% if (isVendor) { %>
+    <section class="pt-5 pb-5">
+      <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="mb-3">My Items</h3>
+            </div>
+            <div class="col-6 text-right">
+                <a class="btn btn-primary mb-3 mr-1" href="#featuredItemsCarousel" role="button" data-slide="prev">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                <a class="btn btn-primary mb-3 " href="#featuredItemsCarousel" role="button" data-slide="next">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="col-12">
+                <div id="featuredItemsCarousel" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                      <% for (let index = 0; index < featuredItems.length; index++) {%>
+                       <% if (index === 0) { %>
+                        <div class="carousel-item active">
+                        <%} %>
+                        <% if (index !== 0) { %>
+                        <div class="carousel-item">
+                        <% } %>
+                          <div class="row">
+
+                            <% if (featuredItems[index][0]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <img class="img-fluid" alt="<%= featuredItems[index][0].name %>" src=" <%= featuredItems[index][0].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= featuredItems[index][0].name %></h4>
+                                    <p class="card-text"><%= featuredItems[index][0].description %></p>
+
+                                  </div>
+
+                                </div>
+                              </div>
+                              <% } %>
+
+                            <% if (featuredItems[index][1]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <img class="img-fluid" alt="<%= featuredItems[index][1].name %>" src=" <%= featuredItems[index][1].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= featuredItems[index][1].name %></h4>
+                                    <p class="card-text"><%= featuredItems[index][1].description %></p>
+
+                                  </div>
+
+                                </div>
+                              </div>
+                              <% } %>
+
+                              <% if (featuredItems[index][2]) { %>
+                                <div class="col-md-4 mb-3">
+                                  <div class="card">
+                                    <img class="img-fluid" alt="<%= featuredItems[index][2].name %>" src=" <%= featuredItems[index][2].image_url %>">
+                                    <div class="card-body">
+                                      <h4 class="card-title"> <%= featuredItems[index][2].name %></h4>
+                                      <p class="card-text"><%= featuredItems[index][2].description %></p>
 
                                     </div>
 

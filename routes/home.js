@@ -41,19 +41,25 @@ module.exports = (db) => {
     `SELECT is_vendor FROM users
     WHERE id = $1;
     `;
+
+    const vendorItemsQuery = `
+    SELECT * FROM items
+    WHERE vendor_id = $1
+    `;
     Promise.all([
       db.query(featuredItemsQuery, []),
       db.query(userFavouritesQuery, [userID]),
+      db.query(vendorItemsQuery, [userID]),
       db.query(isVendor, [userID])
     ])
       .then(data => {
-        const items = data[0].rows;
-        const featuredItems = splitArrayToGroupsOfThree(items);
+        const featuredItems = splitArrayToGroupsOfThree(data[0].rows);
         const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
-        const isVendor = data[2].rows[0].is_vendor;
-        console.log('👁result allo', isVendor);
+        const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
+        const isVendor = data[3].rows[0].is_vendor;
+        console.log('👁isVendor', isVendor, '👄', vendorItems);
         //res.json({ items });
-        const templateVars = { featuredItems, userFavourites, isVendor, userID };
+        const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
         res.render('home', templateVars);
       })
       .catch(err => {
