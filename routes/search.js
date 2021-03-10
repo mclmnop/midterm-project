@@ -184,7 +184,7 @@ module.exports = (db) => {
       queryParams = [userID];
     }
     //adding columns to be modified
-     else if (queryParams.length === 2){
+      else if (queryParams.length === 2){
       queryString += `
       ${keys} = (${values})
       WHERE id = $1

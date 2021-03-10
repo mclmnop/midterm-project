@@ -2,21 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt');
 
-const splitArrayToGroupsOfThree = (items) => {
-  let itemsArray = [];
-  let subArray = [];
-  for (let i = 0; i < items.length; i++) {
-    subArray.push(items[i]);
-    if ((i + 1) % 3 === 0 && i > 0) {
-      itemsArray.push(subArray);
-      subArray = [];
-    } else if (i + 1 === items.length && subArray.length !== 0) {
-      itemsArray.push(subArray);
-    }
-  }
-  return itemsArray;
-};
-
 const checkVendorIfCookie = (data, userID) => {
   if (userID) {
     return data[3].rows[0].is_vendor;
@@ -83,3 +68,7 @@ module.exports = (db) => {
   console.log("👽");
   return router;
 };
+
+
+// post like search page /:id/:edit
+// Do a DB update, not an instert
