@@ -61,6 +61,9 @@ module.exports = (db) => {
     });
   });
 
+
+
+
   router.get("/:id/edit", (req, res) => {
     const userId = req.session.userId;
 
@@ -69,13 +72,35 @@ module.exports = (db) => {
       res.send('You can\'t access this page')
       return;
     }
-    db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
+    const getItemInfo =
+    `
+    SELECT *
+    FROM items
+    WHERE id = $1
+    `
+    const isVendor =
+    `
+      SELECT is_vendor
+      FROM users
+      WHERE id = $1;
+    `;
+    Promise.all([
+      db.query(getItemInfo, [req.params.id]),
+      db.query(isVendor, [userId])
+    ])
+    //db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
     .then(data => {
-      const items = data.rows[0];
+      const items = data[0].rows[0];
       console.log(items);
       //res.json({ items });
       const templateVars = { searchResult: items }
-      res.render('item_edit', templateVars)
+      console.log('data rows 1',data[1].rows[0].is_vendor)
+      if (data[1].rows[0].is_vendor === true){
+        res.render('item_edit', templateVars)
+      } else {
+        res.send('You can\'t access this page')
+      }
+
     })
     .catch(err => {
       res
