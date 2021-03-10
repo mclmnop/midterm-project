@@ -2,42 +2,85 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt');
 
+const splitArrayToGroupsOfThree = (items) => {
+  let itemsArray = [];
+  let subArray = [];
+  for (let i = 0; i < items.length; i++) {
+    subArray.push(items[i]);
+    if ((i + 1) % 3 === 0 && i > 0) {
+      itemsArray.push(subArray);
+      subArray = [];
+    } else if (i + 1 === items.length && subArray.length !== 0) {
+      itemsArray.push(subArray);
+    }
+  }
+  return itemsArray;
+};
+
+const checkVendorIfCookie = (data, userID) => {
+  if (userID) {
+    return data[3].rows[0].is_vendor;
+  }
+  else {
+    return false;
+  }
+};
+
 module.exports = (db) => {
-  // This route is redundant since it is included in the server.js file
-  router.get("/", (req, res) => {
-    res.render("home");
-  });
 
   // Get the 10 most favourited items
-  // router.get("/", (req, res) => {
-  //   const queryString =
-  //   `SELECT DISTINCT items.* FROM items
-  //   JOIN favourites ON items.id = favourites.item_id
-  //   GROUP BY items.id
-  //   LIMIT 10;
-  //   `;
-  //   db.query(queryString, queryParams)
-  //     .then(data => {
-  //       const items = data.rows;
-  //       console.log('result allo', items);
-  //       //res.json({ items });
-  //       const templateVars = { searchResult: items };
-  //       res.render('index', templateVars);
-  //     })
-  //     .catch(err => {
-  //       res
-  //         .status(500)
-  //         .json({ error: err.message });
-  //     });
-  // });
+  router.get("/", (req, res) => {
+    const userID = req.session.userId;
+    console.log("👉🏻",userID);
+    const featuredItemsQuery =
+    `SELECT DISTINCT items.* FROM items
+    JOIN favourites ON items.id = favourites.item_id
+    WHERE items.is_active = 'true'
+    GROUP BY items.id
+    LIMIT 10;
+    `;
 
-  // // Redirects to the search page
-  // // To implement: take input from search form, query database based on search terms
-  // router.post("/search", (req, res) => {
+    const userFavouritesQuery =
+    `SELECT * FROM items
+    JOIN favourites ON item_id = items.id
+    WHERE favourites.user_id = $1;
+    `;
 
-  //   // This view doesn't exist yet!
-  //   res.redirect('/search');
-  // });
+    const isVendor =
+    `SELECT is_vendor FROM users
+    WHERE id = $1;
+    `;
 
+    const vendorItemsQuery = `
+    SELECT * FROM items
+    WHERE vendor_id = $1
+    AND is_active = 'true'
+    AND is_sold = 'false';
+    `;
+    Promise.all([
+      db.query(featuredItemsQuery, []),
+      db.query(userFavouritesQuery, [userID]),
+      db.query(vendorItemsQuery, [userID]),
+      db.query(isVendor, [userID])
+
+    ])
+      .then(data => {
+        const featuredItems = splitArrayToGroupsOfThree(data[0].rows);
+        const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
+        const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
+        const isVendor = checkVendorIfCookie(data, userID);
+
+        console.log('👁isVendor', isVendor, '👄', vendorItems);
+        //res.json({ items });
+        const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
+        res.render('home', templateVars);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+  console.log("👽");
   return router;
 };
