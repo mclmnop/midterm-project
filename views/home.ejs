@@ -53,7 +53,7 @@
 
       <!-- Search form -->
       <div class="container ">
-        <form method="GET" action="/search" class="form text-center">
+        <form method="GET" action="/items" class="form text-center">
           <div class="form-group">
             <input class="form-control-lg form-input" id="item_search" type="text" name="search" placeholder="Search">
             <button class="btn btn-primary" type="submit">Search</button>
@@ -105,7 +105,7 @@
                             <% if (featuredItems[index][0]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <a href="search/<%=featuredItems[index][0].id%>">
+                                  <a href="/items/<%=featuredItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= featuredItems[index][0].name %>" src=" <%= featuredItems[index][0].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= featuredItems[index][0].name %></h4>
@@ -120,7 +120,7 @@
                             <% if (featuredItems[index][1]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <a href="search/<%=featuredItems[index][1].id%>">
+                                  <a href="/items/<%=featuredItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= featuredItems[index][1].name %>" src=" <%= featuredItems[index][1].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= featuredItems[index][1].name %></h4>
@@ -135,7 +135,7 @@
                               <% if (featuredItems[index][2]) { %>
                                 <div class="col-md-4 mb-3">
                                   <div class="card">
-                                    <a href="search/<%=featuredItems[index][2].id%>">
+                                    <a href="/items/<%=featuredItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= featuredItems[index][2].name %>" src=" <%= featuredItems[index][2].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= featuredItems[index][2].name %></h4>
@@ -211,7 +211,7 @@
                             <% if (userFavourites[index][0]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <a href="search/<%=userFavourites[index][0].id%>">
+                                  <a href="/items/<%=userFavourites[index][0].id%>">
                                   <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
@@ -226,7 +226,7 @@
                             <% if (userFavourites[index][1]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <a href="search/<%=userFavourites[index][1].id%>">
+                                  <a href="/items/<%=userFavourites[index][1].id%>">
                                   <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
@@ -241,7 +241,7 @@
                               <% if (userFavourites[index][2]) { %>
                                 <div class="col-md-4 mb-3">
                                   <div class="card">
-                                    <a href="search/<%=userFavourites[index][2].id%>">
+                                    <a href="/items/<%=userFavourites[index][2].id%>">
                                     <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
@@ -316,7 +316,7 @@
                             <% if (vendorItems[index][0]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <a href="search/<%=vendorItems[index][0].id%>">
+                                  <a href="/items/<%=vendorItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
@@ -331,7 +331,7 @@
                             <% if (vendorItems[index][1]) { %>
                               <div class="col-md-4 mb-3">
                                 <div class="card">
-                                  <a href="search/<%=vendorItems[index][1].id%>">
+                                  <a href="/items/<%=vendorItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
@@ -346,7 +346,7 @@
                               <% if (vendorItems[index][2]) { %>
                                 <div class="col-md-4 mb-3">
                                   <div class="card">
-                                    <a href="search/<%=vendorItems[index][2].id%>">
+                                    <a href="/items/<%=vendorItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>

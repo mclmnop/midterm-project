@@ -208,7 +208,7 @@ module.exports = (db) => {
         const items = data.rows;
         console.log(items);
         //res.json({ items });
-        res.redirect(`/search/${req.params.id}`)
+        res.redirect(`/items/${req.params.id}`)
       })
       .catch(err => {
         res
