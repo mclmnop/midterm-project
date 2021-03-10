@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt');
+const { checkVendorIfCookie } = require('../lib/db_helpers');
 
 const splitArrayToGroupsOfThree = (items) => {
   let itemsArray = [];
@@ -17,13 +18,7 @@ const splitArrayToGroupsOfThree = (items) => {
   return itemsArray;
 };
 
-const checkVendorIfCookie = (data, userID) => {
-  if (userID) {
-    return data[3].rows[0].is_vendor;
-  } else {
-    return false;
-  }
-};
+
 
 module.exports = (db) => {
 
@@ -61,13 +56,12 @@ module.exports = (db) => {
       db.query(userFavouritesQuery, [userID]),
       db.query(vendorItemsQuery, [userID]),
       db.query(isVendor, [userID])
-
     ])
       .then(data => {
         const featuredItems = splitArrayToGroupsOfThree(data[0].rows);
         const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
         const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
-        const isVendor = checkVendorIfCookie(data, userID);
+        const isVendor = checkVendorIfCookie(data[3], userID);
 
         console.log('👁isVendor', isVendor, '👄', vendorItems);
         //res.json({ items });
