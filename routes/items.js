@@ -60,6 +60,7 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
     .then(data => {
+      console.log('item page item info ',data[0].rows[0], 'user ID', userID )
       const items = data[0].rows[0];
       if(!userID){
         isVendor = false;
@@ -95,7 +96,7 @@ module.exports = (db) => {
     `
     const isVendor =
     `
-      SELECT is_vendor
+      SELECT *
       FROM users
       WHERE id = $1;
     `;
@@ -106,11 +107,12 @@ module.exports = (db) => {
     //db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
     .then(data => {
       const items = data[0].rows[0];
+      const user = data[1].rows[0];
       console.log(items);
       //res.json({ items });
       const templateVars = { searchResult: items, userID }
       console.log('data rows 1',data[1].rows[0].is_vendor)
-      if (data[1].rows[0].is_vendor === true){
+      if (user.is_vendor === true && items.vendor_id === user.id){
         res.render('item_edit', templateVars)
       } else {
         res.redirect('/home')
@@ -172,8 +174,8 @@ module.exports = (db) => {
   router.post("/item/new", (req, res) => {
     console.log(req.body);
     const creation_date = new Date().toISOString();
-    const vendor_id = req.session.id;
-    let queryParams = [req.body.name, req.body.description, req.body.price * 100, req.body.image_url, vendor_id, creation_date];
+    const vendor = req.session.userId;
+    let queryParams = [req.body.name, req.body.description, req.body.price * 100, req.body.image_url, vendor, creation_date];
     const queryString =
     `
       INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
