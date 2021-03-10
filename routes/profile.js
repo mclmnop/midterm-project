@@ -2,6 +2,21 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt');
 
+const splitArrayToGroupsOfThree = (items) => {
+  let itemsArray = [];
+  let subArray = [];
+  for (let i = 0; i < items.length; i++) {
+    subArray.push(items[i]);
+    if ((i + 1) % 3 === 0 && i > 0) {
+      itemsArray.push(subArray);
+      subArray = [];
+    } else if (i + 1 === items.length && subArray.length !== 0) {
+      itemsArray.push(subArray);
+    }
+  }
+  return itemsArray;
+};
+
 const checkVendorIfCookie = (data, userID) => {
   if (userID) {
     return data[3].rows[0].is_vendor;
@@ -41,23 +56,29 @@ module.exports = (db) => {
     AND is_active = 'true'
     AND is_sold = 'false';
     `;
+
+    const userInfoQuery = `
+    SELECT * FROM users
+    WHERE id = $1;
+    `;
     Promise.all([
       db.query(featuredItemsQuery, []),
       db.query(userFavouritesQuery, [userID]),
       db.query(vendorItemsQuery, [userID]),
-      db.query(isVendor, [userID])
-
+      db.query(isVendor, [userID]),
+      db.query(userInfoQuery, [userID])
     ])
       .then(data => {
         const featuredItems = splitArrayToGroupsOfThree(data[0].rows);
         const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
         const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
         const isVendor = checkVendorIfCookie(data, userID);
+        const userInfo = data[4].rows[0];
 
-        console.log('👁isVendor', isVendor, '👄', vendorItems);
+        console.log('👁userInfo', userInfo);
         //res.json({ items });
         const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
-        res.render('home', templateVars);
+        res.render('profile', templateVars);
       })
       .catch(err => {
         res
@@ -66,6 +87,12 @@ module.exports = (db) => {
       });
   });
   console.log("👽");
+
+  router.post('/edit', (req, res) => {
+    let queryParams = [req.params.id];
+  });
+
+
   return router;
 };
 

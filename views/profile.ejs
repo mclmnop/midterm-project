@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Profile</title>
+    <header>
+      <nav class="navbar">
+        <a href ="/"><button class="logo" href="/">Vend</button></a>
+        <% if (!userID) { %>
+          <div class="user-info">
+            <a href="/login"><p>Log In</p></a>
+            <a href="/register"><p>Register</p></a>
+          </div>
+        <% } else {%>
+          <div class="user-info">
+            <a href="/profile"><p>Your Profile</p></a>
+            <a href="/messages"><p>Messages</p></a>
+            <form method="POST", action="/logout" class="form-inline">
+              <button type= "submit" class="">Logout</button>
+            </form>
+          </div>
+        <% }%>
+      </nav>
+    </header>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/header.css" type="text/css" />
+    <!-- page-specific styles here: -->
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
+
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+
+    <!-- Bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Righteous&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+
+    <h1>THIS IS YOUR PROFILE</h1>
+
+    <!-- Update Profile -->
+    <section>
+      <div class="form">
+        <form method="POST" action='/profile/edit' class='form'>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- User Favourites -->
+    <% if (userID && !isVendor) { %>
+
+    <section class="pt-5 pb-5">
+      <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="mb-3">Your Favourite Items</h3>
+            </div>
+            <div class="col-6 text-right">
+              <!-- If user has more than 3 favourites, show arrows -->
+              <% if (userFavourites[1]) { %>
+                <a class="btn btn-primary mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                <a class="btn btn-primary mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+                <% } %>
+            </div>
+            <div class="col-12">
+                <div id="userFavouritesCarousel" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                      <!-- If the user has no favourites: -->
+                      <% if (userFavourites.length === 0) { %>
+                        <div class="carousel-item active">
+                          <div class="row justify-content-center">
+                            <div class="col-md-4 mb-3">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h4 class="card-title">Add some Favourites!</h4>
+                                  <p class="card-text">When you do, we'll show them to you here!</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                       </div>
+                        <% } %>
+                      <% for (let index = 0; index < userFavourites.length; index++) {%>
+                       <% if (index === 0) { %>
+                        <div class="carousel-item active">
+                        <%} %>
+                        <% if (index !== 0) { %>
+                        <div class="carousel-item">
+                        <% } %>
+                          <div class="row">
+
+                            <% if (userFavourites[index][0]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <a href="search/<%=userFavourites[index][0].id%>">
+                                  <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
+                                    <p class="card-text"><%= userFavourites[index][0].description %></p>
+
+                                  </div>
+                                </a>
+                                </div>
+                              </div>
+                              <% } %>
+
+                            <% if (userFavourites[index][1]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <a href="search/<%=userFavourites[index][1].id%>">
+                                  <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
+                                    <p class="card-text"><%= userFavourites[index][1].description %></p>
+
+                                  </div>
+                                  </a>
+                                </div>
+                              </div>
+                              <% } %>
+
+                              <% if (userFavourites[index][2]) { %>
+                                <div class="col-md-4 mb-3">
+                                  <div class="card">
+                                    <a href="search/<%=userFavourites[index][2].id%>">
+                                    <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
+                                    <div class="card-body">
+                                      <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
+                                      <p class="card-text"><%= userFavourites[index][2].description %></p>
+
+                                    </div>
+                                    </a>
+                                  </div>
+                                </div>
+                                <% } %>
+
+
+
+                            </div>
+                          </div>
+                          <% } %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <% } %>
+
+    <!-- Vendor Items -->
+    <% if (isVendor) { %>
+    <section class="pt-5 pb-5">
+      <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="mb-3">My Items</h3>
+            </div>
+            <div class="col-6 text-right">
+              <% if (vendorItems[1]) { %>
+                <a class="btn btn-primary mb-3 mr-1" href="#vendorItemsCarousel" role="button" data-slide="prev">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                <a class="btn btn-primary mb-3 " href="#vendorItemsCarousel" role="button" data-slide="next">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+                <% } %>
+            </div>
+            <div class="col-12">
+                <div id="vendorItemsCarousel" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                      <!-- If the vendor has no items: -->
+                      <% if (vendorItems.length === 0) { %>
+                        <div class="carousel-item active">
+                          <div class="row justify-content-center">
+                            <div class="col-md-4 mb-3">
+                              <div class="card">
+                                <div class="card-body">
+                                  <h4 class="card-title">Start Selling Something!</h4>
+                                  <p class="card-text">When you list items for sale, we'll show them to you here!</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                       </div>
+                        <% } %>
+                      <% for (let index = 0; index < vendorItems.length; index++) {%>
+                       <% if (index === 0) { %>
+                        <div class="carousel-item active">
+                        <%} %>
+                        <% if (index !== 0) { %>
+                        <div class="carousel-item">
+                        <% } %>
+                          <div class="row">
+
+                            <% if (vendorItems[index][0]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <a href="search/<%=vendorItems[index][0].id%>">
+                                  <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
+                                    <p class="card-text"><%= vendorItems[index][0].description %></p>
+
+                                  </div>
+                                  </a>
+                                </div>
+                              </div>
+                              <% } %>
+
+                            <% if (vendorItems[index][1]) { %>
+                              <div class="col-md-4 mb-3">
+                                <div class="card">
+                                  <a href="search/<%=vendorItems[index][1].id%>">
+                                  <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
+                                  <div class="card-body">
+                                    <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
+                                    <p class="card-text"><%= vendorItems[index][1].description %></p>
+
+                                  </div>
+                                  </a>
+                                </div>
+                              </div>
+                              <% } %>
+
+                              <% if (vendorItems[index][2]) { %>
+                                <div class="col-md-4 mb-3">
+                                  <div class="card">
+                                    <a href="search/<%=vendorItems[index][2].id%>">
+                                    <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
+                                    <div class="card-body">
+                                      <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>
+                                      <p class="card-text"><%= vendorItems[index][2].description %></p>
+
+                                    </div>
+                                    </a>
+                                  </div>
+                                </div>
+                                <% } %>
+
+
+
+                            </div>
+                          </div>
+                          <% } %>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <% } %>
+  </body>
+</html>
