@@ -29,8 +29,9 @@ module.exports = (db) => {
     const userId = req.session.userId;
 
     const { message } = req.body;
+    let time = new Date();
     if (userId) {
-      db.query(`INSERT INTO messages (user_id, message_content, item_id, vendor_id) SELECT $1, $2, $3, vendor_id FROM items WHERE items.id = $3;`, [userId, message, req.params.id])
+      db.query(`INSERT INTO messages (user_id, message_content, date_created, item_id, vendor_id) SELECT $1, $2, $3, $4, vendor_id FROM items WHERE items.id = $4;`, [userId, message, time, req.params.id])
       .then(result => {
         //need to discuss what goes inside the message form
         console.log(result)
@@ -51,15 +52,17 @@ module.exports = (db) => {
 
   router.get("/:itemId/vendors/:vendorId/", (req, res) => {
     const userID = req.session.userId;
-    const queryString = `SELECT users.name, array_agg(messages.message_content) as messages FROM users
+    const queryString = `SELECT users.name, array_agg(messages.message_content) as messages, array_agg(messages.date_created) as times FROM users
     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
     WHERE item_id =$1 AND vendor_id = $2 AND user_id = $3
     GROUP BY users.id;`
     db.query(queryString, [req.params.itemId, req.params.vendorId, req.session.userId])
       .then(data => {
         const messages = data.rows[0].messages;
+        const times = data.rows[0].times;
         console.log(data.rows[0].messages);
-        const templateVars = { messages, userID };
+        console.log(data.rows[0].times);
+        const templateVars = { messages, userID, times };
         res.render("messageThread", templateVars);
       })
   })
