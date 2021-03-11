@@ -76,15 +76,15 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
       .then(data => {
-        //console.log('item page item info ',data[0].rows[0], 'user ID', userID);
+        console.log('item page item info ',data[0].rows[0], 'user ID', userID);
         const items = data[0].rows[0];
         if (!userID) {
           isVendor = false;
         } else {
           isVendor = data[1].rows[0].is_vendor;
         }
-        const templateVars = { searchResult: items, vendorInfo: data[1].rows[0], userID };
-        //console.log('VAAAARS', templateVars)
+        const templateVars = { searchResult: items, vendorInfo: data[1].rows[0], userID, isVendor };
+        console.log('VAAAARS', templateVars)
         if (isVendor) {
           res.render('itemSearched_vendor', templateVars);
         } else {
@@ -358,3 +358,8 @@ module.exports = (db) => {
   });
   return router;
 };
+/* SELECT items.*, users.name as userfirstlastname
+FROM items
+JOIN users ON items.vendor_id = users.id
+WHERE items.id = 14
+AND is_active = 'true'; */

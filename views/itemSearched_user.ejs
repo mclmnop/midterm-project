@@ -46,6 +46,7 @@
                             <p>Price: $<%= searchResult.price / 100 %></p>
                             <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
                         </div>
+                          <% if (userID && !isVendor) { %>
                           <div class="form-check">
                             <form method="POST" action="/items/<%= searchResult.id%>/favourites">
                               <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
@@ -54,6 +55,7 @@
                               </label>
                             </form>
                           </div>
+                          <% } %>
                       </div>
                   </div>
               </div>
