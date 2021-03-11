@@ -30,7 +30,7 @@ module.exports = (db) => {
     `SELECT DISTINCT items.* FROM items
     JOIN favourites ON items.id = favourites.item_id
     WHERE items.is_active = 'true'
-    AND item.is_sold = 'false'
+   AND items.is_sold = 'false'
     GROUP BY items.id
     LIMIT 10;
     `;
@@ -38,8 +38,7 @@ module.exports = (db) => {
     const userFavouritesQuery =
     `SELECT * FROM items
     JOIN favourites ON item_id = items.id
-    WHERE favourites.user_id = $1
-    AND item.is_sold = 'false';
+    WHERE favourites.user_id = $1;
     `;
 
     const isVendor =
@@ -65,7 +64,7 @@ module.exports = (db) => {
         const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
         const isVendor = checkVendorIfCookie(data[3], userID);
 
-        console.log('👁isVendor', isVendor, '👄', vendorItems);
+        console.log('🧰',userFavourites);
         //res.json({ items });
         const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
         res.render('home', templateVars);

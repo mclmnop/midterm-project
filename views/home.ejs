@@ -222,6 +222,9 @@
                                   <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
+                                    <% if (userFavourites[index][0].is_sold == 'true') { %>
+                                      <h5>SOLD</h5>
+                                      <% } %>
                                     <p class="card-text"><%= userFavourites[index][0].description %></p>
 
                                   </div>
@@ -237,6 +240,9 @@
                                   <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
                                   <div class="card-body">
                                     <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
+                                    <% if (userFavourites[index][1].is_sold == 'true') { %>
+                                      <h5>SOLD</h5>
+                                      <% } %>
                                     <p class="card-text"><%= userFavourites[index][1].description %></p>
 
                                   </div>
@@ -252,6 +258,9 @@
                                     <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
+                                      <% if (userFavourites[index][2].is_sold == 'true') { %>
+                                        <h5>SOLD</h5>
+                                        <% } %>
                                       <p class="card-text"><%= userFavourites[index][2].description %></p>
 
                                     </div>
