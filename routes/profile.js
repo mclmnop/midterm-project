@@ -45,13 +45,6 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userID = req.session.userId;
     console.log("👉🏻",userID);
-    const featuredItemsQuery =
-    `SELECT DISTINCT items.* FROM items
-    JOIN favourites ON items.id = favourites.item_id
-    WHERE items.is_active = 'true'
-    GROUP BY items.id
-    LIMIT 10;
-    `;
 
     const userFavouritesQuery =
     `SELECT * FROM items
@@ -76,22 +69,20 @@ module.exports = (db) => {
     WHERE id = $1;
     `;
     Promise.all([
-      db.query(featuredItemsQuery, []),
       db.query(userFavouritesQuery, [userID]),
       db.query(vendorItemsQuery, [userID]),
       db.query(isVendor, [userID]),
       db.query(userInfoQuery, [userID])
     ])
       .then(data => {
-        const featuredItems = splitArrayToGroupsOfThree(data[0].rows);
-        const userFavourites = splitArrayToGroupsOfThree(data[1].rows);
-        const vendorItems = splitArrayToGroupsOfThree(data[2].rows);
-        const isVendor = checkVendorIfCookie(data[3], userID);
-        const userInfo = data[4].rows[0];
+        const userFavourites = splitArrayToGroupsOfThree(data[0].rows);
+        const vendorItems = splitArrayToGroupsOfThree(data[1].rows);
+        const isVendor = checkVendorIfCookie(data[2], userID);
+        const userInfo = data[3].rows[0];
 
         console.log('👁userInfo', userInfo);
         //res.json({ items });
-        const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userInfo, userID };
+        const templateVars = { userFavourites, isVendor, vendorItems, userInfo, userID };
         res.render('profile', templateVars);
       })
       .catch(err => {
