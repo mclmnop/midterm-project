@@ -1,8 +1,6 @@
 .jumbotron-fluid   {
-  background-color: rgba(253, 8, 8, 0.3);
+
   // background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(238,238,238,0.7) 41%);
-  background-image: url('/images/background-img3.jpg');
-  background-size: cover;
   padding: 4px;
 
   .lead {
@@ -27,6 +25,10 @@ body {
   // background-size: cover;
 }
 
+.home-container-main {
+  background-image: url('/images/background-img3.jpg');
+  background-size: cover;
+}
 
 .minmax {
   text-align: center;
