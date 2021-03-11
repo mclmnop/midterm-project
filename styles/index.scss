@@ -5,8 +5,10 @@
   background-size: cover;
   padding: 4px;
 
-
-
+  .lead {
+    color: whitesmoke;
+    text-shadow: 1px 1px 10px white;
+  }
   .display-1 {
     font-family: 'Righteous', cursive;
     background: #C89F48;
