@@ -16,12 +16,14 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
-    <!-- Bootstrap scrips -->
+    <!-- Bootstrap scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
   </head>
 
@@ -47,6 +49,16 @@
                                   <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
                               </div>
                           </a>
+                          <% if (userID && !isVendor) { %>
+                            <div class="form-check">
+                              <form method="POST" action="/items/<%= searchResult[item].id%>/favourites">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
+                                <label class="form-check-label" for="defaultCheck1">
+                                  Add as favourite
+                                </label>
+                              </form>
+                            </div>
+                          <% } %>
                       </div>
                   </div>
               </div>

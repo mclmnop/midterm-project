@@ -2,25 +2,7 @@
 <html lang="en">
   <head>
     <title>Profile</title>
-    <header>
-      <nav class="navbar">
-        <a href ="/"><button class="logo" href="/">Vend</button></a>
-        <% if (!userID) { %>
-          <div class="user-info">
-            <a href="/login"><p>Log In</p></a>
-            <a href="/register"><p>Register</p></a>
-          </div>
-        <% } else {%>
-          <div class="user-info">
-            <a href="/profile"><p>Your Profile</p></a>
-            <a href="/messages"><p>Messages</p></a>
-            <form method="POST", action="/logout" class="form-inline">
-              <button type= "submit" class="">Logout</button>
-            </form>
-          </div>
-        <% }%>
-      </nav>
-    </header>
+    <%- include('partials/_header') %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -28,7 +10,7 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <!-- page-specific styles here: -->
-    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/profile.css" type="text/css" />
 
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -39,43 +21,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
+    <section class="text-center text-white">
+      <h1 class="display-2"><%=userInfo.name%>'s PROFILE</h1>
+    </section>
 
-    <h1>THIS IS YOUR PROFILE</h1>
-
-    <!-- Update Profile -->
-    <section class="container col-5">
-      <h2>Update Your Info:</h2>
-      <div class="form">
-        <form method="POST" action='/profile/edit' class='form'>
-          <label for="name">Name:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.name%>" name="name" id="name">
-          <label for="email">Email:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.email%>" name="email" id="email">
-          <label for="phone">Phone:</label>
-          <input class="form-control" type="tel" placeholder="<%=userInfo.phone%>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone">
-          <label for="street">Street:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.street%>" name="street" id="street">
-          <label for="city">City:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.city%>" name="city" id="city">
-          <label for="province">Province:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.province%>" name="province" id="province">
-          <label for="country">Country:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
-          <label for="postal_code">Postal Code:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
-          <button class="btn btn-primary mt-4" type="submit">Update</button>
-        </form>
+    <section class="container justify-content-center">
+      <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
+      <% if (isVendor) { %>
+      <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
+      <% } %>
+      <!-- Update Profile -->
+      <div class="collapse" id="updateInfo">
+        <div class="form">
+          <form method="POST" action='/profile/edit' class='form'>
+            <label for="name">Name:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.name%>" name="name" id="name">
+            <label for="email">Email:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.email%>" name="email" id="email">
+            <label for="phone">Phone:</label>
+            <input class="form-control" type="tel" placeholder="<%=userInfo.phone%>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone">
+            <label for="street">Street:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.street%>" name="street" id="street">
+            <label for="city">City:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.city%>" name="city" id="city">
+            <label for="province">Province:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.province%>" name="province" id="province">
+            <label for="country">Country:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
+            <label for="postal_code">Postal Code:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
+            <button class="btn btn-dark mt-4" type="submit">Update</button>
+          </form>
+        </div>
       </div>
     </section>
 
-    <!-- User Favourites -->
-    <% if (userID && !isVendor) { %>
+   <!-- User Favourites -->
+   <% if (userID && !isVendor) { %>
 
     <section class="pt-5 pb-5">
       <div class="container">
@@ -86,10 +75,10 @@
             <div class="col-6 text-right">
               <!-- If user has more than 3 favourites, show arrows -->
               <% if (userFavourites[1]) { %>
-                <a class="btn btn-primary mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
+                <a class="btn btn-dark mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
                     <i class="fa fa-arrow-left"></i>
                 </a>
-                <a class="btn btn-primary mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
+                <a class="btn btn-dark mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
                     <i class="fa fa-arrow-right"></i>
                 </a>
                 <% } %>
@@ -103,8 +92,8 @@
                         <div class="carousel-item active">
                           <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
-                              <div class="card">
-                                <div class="card-body">
+                              <div class="card h-100">
+                                <div class="carousel-caption">
                                   <h4 class="card-title">Add some Favourites!</h4>
                                   <p class="card-text">When you do, we'll show them to you here!</p>
                                 </div>
@@ -124,12 +113,15 @@
 
                             <% if (userFavourites[index][0]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
-                                  <a href="search/<%=userFavourites[index][0].id%>">
-                                  <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
-                                  <div class="card-body">
+                                <div class="card h-100">
+                                  <a href="/items/<%=userFavourites[index][0].id%>">
+                                  <img class="w-100" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
-                                    <p class="card-text"><%= userFavourites[index][0].description %></p>
+                                    <% if (userFavourites[index][0].is_sold == 'true') { %>
+                                      <h5 class="sold">SOLD!</h5>
+                                      <% } %>
+                                    <p class="card-text">!$<%= userFavourites[index][0].price / 100 %></p>
 
                                   </div>
                                 </a>
@@ -139,12 +131,15 @@
 
                             <% if (userFavourites[index][1]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
-                                  <a href="search/<%=userFavourites[index][1].id%>">
-                                  <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
-                                  <div class="card-body">
+                                <div class="card h-100">
+                                  <a href="/items/<%=userFavourites[index][1].id%>">
+                                  <img class="w-100" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
-                                    <p class="card-text"><%= userFavourites[index][1].description %></p>
+                                    <% if (userFavourites[index][1].is_sold == 'true') { %>
+                                      <h5 class="sold">SOLD!</h5>
+                                      <% } %>
+                                    <p class="card-text">!$<%= userFavourites[index][1].price / 100 %></p>
 
                                   </div>
                                   </a>
@@ -154,12 +149,15 @@
 
                               <% if (userFavourites[index][2]) { %>
                                 <div class="col-md-4 mb-3">
-                                  <div class="card">
-                                    <a href="search/<%=userFavourites[index][2].id%>">
-                                    <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
-                                    <div class="card-body">
+                                  <div class="card h-100">
+                                    <a href="/items/<%=userFavourites[index][2].id%>">
+                                    <img class="w-100" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
+                                    <div class="carousel-caption">
                                       <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
-                                      <p class="card-text"><%= userFavourites[index][2].description %></p>
+                                      <% if (userFavourites[index][2].is_sold == 'true') { %>
+                                        <h5 class="sold">SOLD!</h5>
+                                        <% } %>
+                                      <p class="card-text">$<%= userFavourites[index][2].price / 100 %></p>
 
                                     </div>
                                     </a>
@@ -191,10 +189,10 @@
             </div>
             <div class="col-6 text-right">
               <% if (vendorItems[1]) { %>
-                <a class="btn btn-primary mb-3 mr-1" href="#vendorItemsCarousel" role="button" data-slide="prev">
+                <a class="btn btn-dark mb-3 mr-1" href="#vendorItemsCarousel" role="button" data-slide="prev">
                     <i class="fa fa-arrow-left"></i>
                 </a>
-                <a class="btn btn-primary mb-3 " href="#vendorItemsCarousel" role="button" data-slide="next">
+                <a class="btn btn-dark mb-3 " href="#vendorItemsCarousel" role="button" data-slide="next">
                     <i class="fa fa-arrow-right"></i>
                 </a>
                 <% } %>
@@ -208,11 +206,13 @@
                         <div class="carousel-item active">
                           <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
-                              <div class="card">
-                                <div class="card-body">
-                                  <h4 class="card-title">Start Selling Something!</h4>
-                                  <p class="card-text">When you list items for sale, we'll show them to you here!</p>
-                                </div>
+                              <div class="card h-100">
+                                <a href="items/item/new">
+                                  <div class="carousel-caption">
+                                    <h4 class="card-title">Start Selling Something!</h4>
+                                    <p class="card-text">When you list items for sale, we'll show them to you here!</p>
+                                  </div>
+                                </a>
                               </div>
                             </div>
                         </div>
@@ -229,12 +229,15 @@
 
                             <% if (vendorItems[index][0]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
-                                  <a href="search/<%=vendorItems[index][0].id%>">
+                                <div class="card h-100">
+                                  <a href="/items/<%=vendorItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
-                                    <p class="card-text"><%= vendorItems[index][0].description %></p>
+                                    <% if (vendorItems[index][0].is_sold == 'true') { %>
+                                      <h5 class="sold">SOLD!</h5>
+                                      <% } %>
+                                    <p class="card-text">$<%= vendorItems[index][0].price / 100 %></p>
 
                                   </div>
                                   </a>
@@ -244,12 +247,15 @@
 
                             <% if (vendorItems[index][1]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
-                                  <a href="search/<%=vendorItems[index][1].id%>">
+                                <div class="card h-100">
+                                  <a href="/items/<%=vendorItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
-                                    <p class="card-text"><%= vendorItems[index][1].description %></p>
+                                    <% if (vendorItems[index][1].is_sold == 'true') { %>
+                                      <h5 class="sold">SOLD!</h5>
+                                      <% } %>
+                                    <p class="card-text">$<%= vendorItems[index][1].price / 100 %></p>
 
                                   </div>
                                   </a>
@@ -259,12 +265,15 @@
 
                               <% if (vendorItems[index][2]) { %>
                                 <div class="col-md-4 mb-3">
-                                  <div class="card">
-                                    <a href="search/<%=vendorItems[index][2].id%>">
+                                  <div class="card h-100">
+                                    <a href="/items/<%=vendorItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
-                                    <div class="card-body">
+                                    <div class="carousel-caption">
                                       <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>
-                                      <p class="card-text"><%= vendorItems[index][2].description %></p>
+                                      <% if (vendorItems[index][2].is_sold == 'true') { %>
+                                        <h5 class="sold">SOLD!</h5>
+                                        <% } %>
+                                      <p class="card-text">$<%= vendorItems[index][2].price / 100 %></p>
 
                                     </div>
                                     </a>

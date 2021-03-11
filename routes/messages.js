@@ -8,7 +8,7 @@ module.exports = (db) => {
     db.query(`
     SELECT users.name, count(messages.id), messages.item_id, messages.vendor_id FROM users
         JOIN messages on users.id = messages.vendor_id
-        WHERE messages.user_id = $1
+        WHERE messages.user_id = $1 OR messages.vendor_id =$1
         GROUP BY users.id, messages.item_id, messages.vendor_id;
     `, [userID])
       .then(data => {
@@ -87,7 +87,7 @@ module.exports = (db) => {
     const userID = req.session.userId;
     const queryString = `SELECT users.name, array_agg(messages.message_content) as messages, array_agg(messages.date_created) as times FROM users
     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
-    WHERE item_id =$1 AND vendor_id = $2 AND user_id = $3
+    WHERE item_id =$1 AND (vendor_id = $2 OR vendor_id = $3) AND (user_id = $3 OR user_id = $2)
     GROUP BY users.id;`
     db.query(queryString, [req.params.itemId, req.params.vendorId, req.session.userId])
       .then(data => {
@@ -98,6 +98,11 @@ module.exports = (db) => {
         const templateVars = { messages, userID, times, itemID, vendorID };
         res.render("messageThread", templateVars);
       })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   })
 
   return router;
