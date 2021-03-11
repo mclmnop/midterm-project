@@ -194,8 +194,8 @@
       </section>
       <% } %>
 
-      <!-- Vendor Items -->
-      <% if (isVendor) { %>
+     <!-- Vendor Items -->
+     <% if (isVendor) { %>
       <section class="pt-5 pb-5">
         <div class="container">
           <div class="row">
@@ -249,7 +249,7 @@
                                     <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
-                                      <% if (vendorItems[index][0].is_sold) { %>
+                                      <% if (vendorItems[index][0].is_sold == 'true') { %>
                                         <h5>SOLD</h5>
                                         <% } %>
                                       <p class="card-text"><%= vendorItems[index][0].description %></p>
@@ -267,7 +267,7 @@
                                     <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
-                                      <% if (vendorItems[index][1].is_sold) { %>
+                                      <% if (vendorItems[index][1].is_sold == 'true') { %>
                                         <h5>SOLD</h5>
                                         <% } %>
                                       <p class="card-text"><%= vendorItems[index][1].description %></p>
@@ -285,7 +285,7 @@
                                       <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
                                       <div class="card-body">
                                         <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>
-                                        <% if (vendorItems[index][2].is_sold) { %>
+                                        <% if (vendorItems[index][2].is_sold == 'true') { %>
                                           <h5>SOLD</h5>
                                           <% } %>
                                         <p class="card-text"><%= vendorItems[index][2].description %></p>
