@@ -115,9 +115,9 @@
                                 <div class="card h-100">
                                   <a href="/items/<%=featuredItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= featuredItems[index][0].name %>" src=" <%= featuredItems[index][0].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= featuredItems[index][0].name %></h4>
-                                    <p class="card-text"><%= featuredItems[index][0].description %></p>
+                                    <p class="card-text">$<%= featuredItems[index][0].price / 100 %></p>
 
                                   </div>
                                   </a>
@@ -130,10 +130,9 @@
                                 <div class="card h-100">
                                   <a href="/items/<%=featuredItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= featuredItems[index][1].name %>" src=" <%= featuredItems[index][1].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= featuredItems[index][1].name %></h4>
-                                    <p class="card-text"><%= featuredItems[index][1].description %></p>
-
+                                    <p class="card-text">$<%= featuredItems[index][1].price / 100 %></p>
                                   </div>
                                 </a>
                                 </div>
@@ -145,9 +144,9 @@
                                   <div class="card h-100">
                                     <a href="/items/<%=featuredItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= featuredItems[index][2].name %>" src=" <%= featuredItems[index][2].image_url %>">
-                                    <div class="card-body">
+                                    <div class="carousel-caption">
                                       <h4 class="card-title"> <%= featuredItems[index][2].name %></h4>
-                                      <p class="card-text"><%= featuredItems[index][2].description %></p>
+                                      <p class="card-text">$<%= featuredItems[index][2].price / 100 %></p>
 
                                     </div>
                                   </a>
@@ -198,7 +197,7 @@
                           <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
                               <div class="card h-100">
-                                <div class="card-body">
+                                <div class="carousel-caption">
                                   <h4 class="card-title">Add some Favourites!</h4>
                                   <p class="card-text">When you do, we'll show them to you here!</p>
                                 </div>
@@ -221,7 +220,7 @@
                                 <div class="card h-100">
                                   <a href="/items/<%=userFavourites[index][0].id%>">
                                   <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
                                     <% if (userFavourites[index][0].is_sold == 'true') { %>
                                       <h5>SOLD</h5>
@@ -239,7 +238,7 @@
                                 <div class="card h-100">
                                   <a href="/items/<%=userFavourites[index][1].id%>">
                                   <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
                                     <% if (userFavourites[index][1].is_sold == 'true') { %>
                                       <h5>SOLD</h5>
@@ -257,7 +256,7 @@
                                   <div class="card h-100">
                                     <a href="/items/<%=userFavourites[index][2].id%>">
                                     <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
-                                    <div class="card-body">
+                                    <div class="carousel-caption">
                                       <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
                                       <% if (userFavourites[index][2].is_sold == 'true') { %>
                                         <h5>SOLD</h5>
@@ -313,7 +312,7 @@
                             <div class="col-md-4 mb-3">
                               <div class="card h-100">
                                 <a href="items/item/new">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title">Start Selling Something!</h4>
                                     <p class="card-text">When you list items for sale, we'll show them to you here!</p>
                                   </div>
@@ -337,7 +336,7 @@
                                 <div class="card h-100">
                                   <a href="/items/<%=vendorItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
                                     <% if (vendorItems[index][0].is_sold == 'true') { %>
                                       <h5>SOLD</h5>
@@ -355,7 +354,7 @@
                                 <div class="card h-100">
                                   <a href="/items/<%=vendorItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
-                                  <div class="card-body">
+                                  <div class="carousel-caption">
                                     <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
                                     <% if (vendorItems[index][1].is_sold == 'true') { %>
                                       <h5>SOLD</h5>
@@ -373,7 +372,7 @@
                                   <div class="card h-100">
                                     <a href="/items/<%=vendorItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
-                                    <div class="card-body">
+                                    <div class="carousel-caption">
                                       <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>
                                       <% if (vendorItems[index][2].is_sold == 'true') { %>
                                         <h5>SOLD</h5>

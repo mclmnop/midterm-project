@@ -23,6 +23,19 @@ body {
   background-size: cover;
 }
 
-.card h5 {
+.card{
+  position: relative;
+  h5 {
   color:#c34745;
+}
+.carousel-caption {
+  color:red;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 }
