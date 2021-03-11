@@ -143,3 +143,7 @@ module.exports = (db) => {
 //     JOIN messages on users.id = messages.user_id OR users.id = messages.vendor_id
 //     WHERE item_id = 1 AND vendor_id = 2
 //     GROUP BY users.id;
+
+
+
+
