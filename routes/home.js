@@ -67,6 +67,7 @@ module.exports = (db) => {
         console.log('🧰',userFavourites);
         //res.json({ items });
         const templateVars = { featuredItems, userFavourites, isVendor, vendorItems, userID };
+        console.log("💰",vendorItems);
         res.render('home', templateVars);
       })
       .catch(err => {

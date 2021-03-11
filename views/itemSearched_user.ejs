@@ -31,23 +31,21 @@
   <body>
     <div class ="searchResult">
 
-      <div class="container bootstrap snippets bootdey">
+      <div class="container">
           <hr>
           <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="col-12">
                   <div class="well search-result">
                       <div class="row">
-                          <a href="#">
-                              <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                                  <img class="img-responsive img-fluid" src="<%= searchResult.image_url%>" alt="">
-                              </div>
-                              <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                                  <h3><%= searchResult.name%></h3>
-                                  <p><%= searchResult.description%></p>
-                                  <p>Price :<%= searchResult.price / 100 %> $$$</p>
-                                  <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
-                              </div>
-                          </a>
+                        <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                            <img class="img-responsive img-fluid" src="<%= searchResult.image_url%>" alt="">
+                        </div>
+                        <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
+                            <h3><%= searchResult.name%></h3>
+                            <p><%= searchResult.description%></p>
+                            <p>Price: $<%= searchResult.price / 100 %></p>
+                            <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
+                        </div>
                           <div class="form-check">
                             <form method="POST" action="/items/<%= searchResult.id%>/favourites">
                               <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
