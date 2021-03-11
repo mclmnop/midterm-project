@@ -14,7 +14,27 @@
 const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
-const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers')
+const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers');
+const nodemailer = require('nodemailer');
+
+let transport = nodemailer.createTransport({
+  host: 'smtp.mailtrap.io',
+  port: 2525,
+  auth: {
+     user: '5dda94a444016c',
+     pass: '160543f584dbad'
+  }
+
+});
+
+const message = {
+  from: 'elonmusk@tesla.com', // Sender address
+  to: 'fiveg38978@mailnest.net',         // List of recipients
+  subject: 'Design Your Model S | Tesla', // Subject line
+  text: 'Have the most fun you can in a car. Get your Tesla today!' // Plain text body
+};
+
+
 
 module.exports = (db) => {
 
@@ -237,6 +257,7 @@ module.exports = (db) => {
     }
     //if mark as sold button was hit
     if(req.body.sold) {
+
       queryString += `
       is_sold = true
       WHERE id = $1
@@ -244,6 +265,7 @@ module.exports = (db) => {
       `
       queryParams = [userID];
     }
+
     //adding columns to be modified, if only one argument, remvoeve parenthesis in query
       else if (queryParams.length === 2){
       queryString += `
@@ -305,6 +327,41 @@ module.exports = (db) => {
     db.query(queryString, [item_id, user_id])
       .then(data => {
         res.redirect('/profile')
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.post("/:id/contact", (req, res) => {
+    const item_id = req.params.id;
+    const user_id = req.session.userId;
+        //if mark as sold button was hit
+        if(req.body.sendNotif) {
+          console.log('Buyer? 💍', req.body.buyer_id)
+
+        }
+    const queryString =
+    `
+      SELECT *
+      from users
+      WHERE id = $1
+    `;
+
+    db.query(queryString, [req.body.buyer_id])
+      .then(data => {
+        //console.log(data);
+        transport.sendMail(message, function(err, info) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log(info);
+          }
+      });
+
+        res.redirect(`/items/${item_id}/edit`)
       })
       .catch(err => {
         res
