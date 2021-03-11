@@ -52,7 +52,6 @@
           <% }%>
         </nav>
       </header>
-      <!-- <div class="container"> -->
         <div class="jumbotron-fluid pb-5">
           <div class="container text-center">
             <h1 class="display-1">Vend</h1>
@@ -63,7 +62,7 @@
           </div>
 
           <!-- Search form -->
-          <div class="container ">
+          <div class="container">
             <form method="GET" action="/items" class="form text-center">
               <div class="form-group">
                 <div class="input-group">
@@ -77,10 +76,8 @@
               <div class="collapse" id="priceFilter">
                 <div class="d-flex justify-content-center">
                   <div class="col-3">
-                    <label for="search_min">Minimum price:</label>
-                    <input class="form-control" id="search_min_price" type="number" name="search_min_price" min="0">
-                    <label for="search_max">Maximum price:</label>
-                    <input class="form-control" id="search_max_price" type="number" name="search_max_price" min="0">
+                    <input class="form-control" id="search_min_price" type="number" name="search_min_price" min="0" placeholder="Minimum price">
+                    <input class="form-control" id="search_max_price" type="number" name="search_max_price" min="0" placeholder="maximum price">
                   </div>
                 </div>
             </div>
