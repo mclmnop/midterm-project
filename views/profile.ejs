@@ -2,25 +2,7 @@
 <html lang="en">
   <head>
     <title>Profile</title>
-    <header>
-      <nav class="navbar">
-        <a href ="/"><button class="logo" href="/">Vend</button></a>
-        <% if (!userID) { %>
-          <div class="user-info">
-            <a href="/login"><p>Log In</p></a>
-            <a href="/register"><p>Register</p></a>
-          </div>
-        <% } else {%>
-          <div class="user-info">
-            <a href="/profile"><p>Your Profile</p></a>
-            <a href="/messages"><p>Messages</p></a>
-            <form method="POST", action="/logout" class="form-inline">
-              <button type= "submit" class="">Logout</button>
-            </form>
-          </div>
-        <% }%>
-      </nav>
-    </header>
+    <%- include('partials/_header') %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -28,7 +10,7 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <!-- page-specific styles here: -->
-    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="/styles/index.css" type="text/css" /> -->
 
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -47,34 +29,36 @@
   <body>
     <section class="text-center text-white">
       <h1 class="display-2"><%=userInfo.name%>'s PROFILE</h1>
-      <% if (isVendor) { %>
-      <a href="/items/item/new"><h2>Create New Listing</h2></a>
-      <% } %>
     </section>
 
-    <!-- Update Profile -->
-    <section class="container col-5">
-      <h2>Update Your Info:</h2>
-      <div class="form">
-        <form method="POST" action='/profile/edit' class='form'>
-          <label for="name">Name:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.name%>" name="name" id="name">
-          <label for="email">Email:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.email%>" name="email" id="email">
-          <label for="phone">Phone:</label>
-          <input class="form-control" type="tel" placeholder="<%=userInfo.phone%>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone">
-          <label for="street">Street:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.street%>" name="street" id="street">
-          <label for="city">City:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.city%>" name="city" id="city">
-          <label for="province">Province:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.province%>" name="province" id="province">
-          <label for="country">Country:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
-          <label for="postal_code">Postal Code:</label>
-          <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
-          <button class="btn btn-primary mt-4" type="submit">Update</button>
-        </form>
+    <section class="container justify-content-center">
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
+      <% if (isVendor) { %>
+      <a class="btn btn-primary" href="/items/item/new" role="button">Create New Listing</a>
+      <% } %>
+      <!-- Update Profile -->
+      <div class="collapse" id="updateInfo">
+        <div class="form">
+          <form method="POST" action='/profile/edit' class='form'>
+            <label for="name">Name:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.name%>" name="name" id="name">
+            <label for="email">Email:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.email%>" name="email" id="email">
+            <label for="phone">Phone:</label>
+            <input class="form-control" type="tel" placeholder="<%=userInfo.phone%>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone">
+            <label for="street">Street:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.street%>" name="street" id="street">
+            <label for="city">City:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.city%>" name="city" id="city">
+            <label for="province">Province:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.province%>" name="province" id="province">
+            <label for="country">Country:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
+            <label for="postal_code">Postal Code:</label>
+            <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
+            <button class="btn btn-primary mt-4" type="submit">Update</button>
+          </form>
+        </div>
       </div>
     </section>
 
