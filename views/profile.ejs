@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>Profile</title>
-    <%- include('partials/_header') %>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -28,42 +28,49 @@
   </head>
 
   <body>
-    <section class="text-center">
-      <h1 class="display-2 "><%=userInfo.name%>'s PROFILE</h1>
-    </section>
+    <div class="profile-main-container">
+      <%- include('partials/_header') %>
+      <section class="text-center">
+        <h1 class="display-2 "><%=userInfo.name%>'s PROFILE</h1>
+      </section>
 
-    <section class="container justify-content-center">
-      <div class="d-flex justify-content-around">
-        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
-        <a class="btn btn-dark" href="/messages">Messages</a>
-        <% if (isVendor) { %>
-        <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
-        <% } %>
-      </div>
-      <!-- Update Profile -->
-      <div class="collapse" id="updateInfo">
-        <div class="form">
-          <form method="POST" action='/profile/edit' class='form'>
-            <label for="name">Name:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.name%>" name="name" id="name">
-            <label for="email">Email:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.email%>" name="email" id="email">
-            <label for="phone">Phone:</label>
-            <input class="form-control" type="tel" placeholder="<%=userInfo.phone%>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone">
-            <label for="street">Street:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.street%>" name="street" id="street">
-            <label for="city">City:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.city%>" name="city" id="city">
-            <label for="province">Province:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.province%>" name="province" id="province">
-            <label for="country">Country:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
-            <label for="postal_code">Postal Code:</label>
-            <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
-            <button class="btn btn-dark mt-4" type="submit">Update</button>
-          </form>
+      <section class="container justify-content-center">
+        <div class="d-flex justify-content-around">
+          <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
+          <a class="btn btn-dark" href="/messages">Messages</a>
+          <% if (isVendor) { %>
+            <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
+            <% } %>
         </div>
-      </div>
+      </section>
+
+    </div>
+
+      <!-- Update Profile -->
+      <section class="container justify-content-center mt-3">
+        <div class="collapse" id="updateInfo">
+          <div class="form">
+            <form method="POST" action='/profile/edit' class='form'>
+              <label for="name">Name:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.name%>" name="name" id="name">
+              <label for="email">Email:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.email%>" name="email" id="email">
+              <label for="phone">Phone:</label>
+              <input class="form-control" type="tel" placeholder="<%=userInfo.phone%>" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone">
+              <label for="street">Street:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.street%>" name="street" id="street">
+              <label for="city">City:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.city%>" name="city" id="city">
+              <label for="province">Province:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.province%>" name="province" id="province">
+              <label for="country">Country:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
+              <label for="postal_code">Postal Code:</label>
+              <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
+              <button class="btn btn-dark mt-4" type="submit">Update</button>
+            </form>
+          </div>
+        </div>
     </section>
 
    <!-- User Favourites -->

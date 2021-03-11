@@ -10,6 +10,13 @@ h1 {
   color: black;
 }
 
-.profileHead {
-  background-color: black;
+.profile-main-container {
+  // background-color: black;
+  padding-bottom: 20px;
+  background-image: url('/images/background-img3.jpg');
+  background-size: cover;
+
+  h1 {
+    text-shadow: 1px 1px 5px whitesmoke;
+  }
 }
