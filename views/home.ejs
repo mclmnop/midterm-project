@@ -45,33 +45,35 @@
   </head>
 
   <body>
-    <div class="jumbotron-fluid jumbo">
-      <div class="container text-center">
-        <h1 class="display-4">Vend</h1>
-        <h2 class="lead">The place to buy and sell your stuff</h2>
-        <a href="/items/item/new"><h2 class="lead">Create New Listing</h2></a>
-      </div>
+    <div class="container">
+      <div class="jumbotron-fluid">
+        <div class="container text-center">
+          <h1 class="display-4">Vend</h1>
+          <h2 class="lead">The place to buy and sell your stuff</h2>
+          <a href="/items/item/new"><h2 class="lead">Create New Listing</h2></a>
+        </div>
 
-      <!-- Search form -->
-      <div class="container ">
-        <form method="GET" action="/items" class="form text-center">
-          <div class="form-group">
-            <input class="form-control-lg form-input" id="item_search" type="text" name="search" placeholder="Search">
-            <button class="btn btn-primary" type="submit">Search</button>
-          </div>
-          <div class="form-group form-inline mx-auto">
-            <div class="col-1 mx-auto">
-              <label class="col-form-label"  for="search_min">Minimum price:</label>
-              <input class="form-control" id="search_min_price" type="number" name="search_min_price" min="0">
+        <!-- Search form -->
+        <div class="container ">
+          <form method="GET" action="/items" class="form text-center">
+            <div class="form-group">
+              <input class="form-control-lg form-input" id="item_search" type="text" name="search" placeholder="Search">
+              <button class="btn btn-primary" type="submit">Search</button>
             </div>
-            <div class="col-1 mx-auto">
-              <label class="col-form-label" for="search_max">Maximum price:</label>
-              <input class="form-control" id="search_max_price" type="number" name="search_max_price" min="0">
+            <div class="form-group form-inline mx-auto">
+              <div class="col-1 mx-auto">
+                <label class="col-form-label"  for="search_min">Minimum price:</label>
+                <input class="form-control" id="search_min_price" type="number" name="search_min_price" min="0">
+              </div>
+              <div class="col-1 mx-auto">
+                <label class="col-form-label" for="search_max">Maximum price:</label>
+                <input class="form-control" id="search_max_price" type="number" name="search_max_price" min="0">
+              </div>
+              <div class="col-2">
+              </div>
             </div>
-            <div class="col-2">
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -105,7 +107,7 @@
 
                             <% if (featuredItems[index][0]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
+                                <div class="card h-100">
                                   <a href="/items/<%=featuredItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= featuredItems[index][0].name %>" src=" <%= featuredItems[index][0].image_url %>">
                                   <div class="card-body">
@@ -120,7 +122,7 @@
 
                             <% if (featuredItems[index][1]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
+                                <div class="card h-100">
                                   <a href="/items/<%=featuredItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= featuredItems[index][1].name %>" src=" <%= featuredItems[index][1].image_url %>">
                                   <div class="card-body">
@@ -135,7 +137,7 @@
 
                               <% if (featuredItems[index][2]) { %>
                                 <div class="col-md-4 mb-3">
-                                  <div class="card">
+                                  <div class="card h-100">
                                     <a href="/items/<%=featuredItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= featuredItems[index][2].name %>" src=" <%= featuredItems[index][2].image_url %>">
                                     <div class="card-body">
@@ -190,7 +192,7 @@
                         <div class="carousel-item active">
                           <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
-                              <div class="card">
+                              <div class="card h-100">
                                 <div class="card-body">
                                   <h4 class="card-title">Add some Favourites!</h4>
                                   <p class="card-text">When you do, we'll show them to you here!</p>
@@ -211,7 +213,7 @@
 
                             <% if (userFavourites[index][0]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
+                                <div class="card h-100">
                                   <a href="/items/<%=userFavourites[index][0].id%>">
                                   <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
                                   <div class="card-body">
@@ -226,7 +228,7 @@
 
                             <% if (userFavourites[index][1]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
+                                <div class="card h-100">
                                   <a href="/items/<%=userFavourites[index][1].id%>">
                                   <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
                                   <div class="card-body">
@@ -241,7 +243,7 @@
 
                               <% if (userFavourites[index][2]) { %>
                                 <div class="col-md-4 mb-3">
-                                  <div class="card">
+                                  <div class="card h-100">
                                     <a href="/items/<%=userFavourites[index][2].id%>">
                                     <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
                                     <div class="card-body">
@@ -295,7 +297,7 @@
                         <div class="carousel-item active">
                           <div class="row justify-content-center">
                             <div class="col-md-4 mb-3">
-                              <div class="card">
+                              <div class="card h-100">
                                 <a href="items/item/new">
                                   <div class="card-body">
                                     <h4 class="card-title">Start Selling Something!</h4>
@@ -318,7 +320,7 @@
 
                             <% if (vendorItems[index][0]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
+                                <div class="card h-100">
                                   <a href="/items/<%=vendorItems[index][0].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
                                   <div class="card-body">
@@ -333,7 +335,7 @@
 
                             <% if (vendorItems[index][1]) { %>
                               <div class="col-md-4 mb-3">
-                                <div class="card">
+                                <div class="card h-100">
                                   <a href="/items/<%=vendorItems[index][1].id%>">
                                   <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
                                   <div class="card-body">
@@ -348,7 +350,7 @@
 
                               <% if (vendorItems[index][2]) { %>
                                 <div class="col-md-4 mb-3">
-                                  <div class="card">
+                                  <div class="card h-100">
                                     <a href="/items/<%=vendorItems[index][2].id%>">
                                     <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
                                     <div class="card-body">
