@@ -76,7 +76,7 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
       .then(data => {
-        console.log('item page item info ',data[0].rows[0], 'user ID', userID);
+        //console.log('item page item info ',data[0].rows[0], 'user ID', userID);
         const items = data[0].rows[0];
         if (!userID) {
           isVendor = false;
@@ -84,7 +84,7 @@ module.exports = (db) => {
           isVendor = data[1].rows[0].is_vendor;
         }
         const templateVars = { searchResult: items, vendorInfo: data[1].rows[0], userID };
-        console.log('VAAAARS', templateVars)
+        //console.log('VAAAARS', templateVars)
         if (isVendor) {
           res.render('itemSearched_vendor', templateVars);
         } else {

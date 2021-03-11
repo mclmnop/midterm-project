@@ -46,7 +46,7 @@
                                   <p>Price :<%= searchResult.price / 100 %> $$$</p>
                                   <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
                                   <% if (vendorInfo.id === searchResult.vendor_id) { %>
-                                  <button href="/items/<%= searchResult.id%>/edit" class="btn btn-primary" >edit</button>
+                                  <button href="/items/<%= searchResult.id%>/edit" class="btn btn-dark" >edit</button>
                                   <% } %>
                               </div>
                           </a>
