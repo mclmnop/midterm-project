@@ -33,9 +33,9 @@
     </section>
 
     <section class="container justify-content-center">
-      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
+      <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
       <% if (isVendor) { %>
-      <a class="btn btn-primary" href="/items/item/new" role="button">Create New Listing</a>
+      <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
       <% } %>
       <!-- Update Profile -->
       <div class="collapse" id="updateInfo">
@@ -57,7 +57,7 @@
             <input class="form-control" type="text" placeholder="<%=userInfo.country%>" name="country" id="country">
             <label for="postal_code">Postal Code:</label>
             <input class="form-control" type="text" placeholder="<%=userInfo.postal_code%>" name="postal_code" id="postal_code">
-            <button class="btn btn-primary mt-4" type="submit">Update</button>
+            <button class="btn btn-dark mt-4" type="submit">Update</button>
           </form>
         </div>
       </div>
@@ -75,10 +75,10 @@
             <div class="col-6 text-right">
               <!-- If user has more than 3 favourites, show arrows -->
               <% if (userFavourites[1]) { %>
-                <a class="btn btn-primary mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
+                <a class="btn btn-dark mb-3 mr-1" href="#userFavouritesCarousel" role="button" data-slide="prev">
                     <i class="fa fa-arrow-left"></i>
                 </a>
-                <a class="btn btn-primary mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
+                <a class="btn btn-dark mb-3 " href="#userFavouritesCarousel" role="button" data-slide="next">
                     <i class="fa fa-arrow-right"></i>
                 </a>
                 <% } %>
@@ -189,10 +189,10 @@
             </div>
             <div class="col-6 text-right">
               <% if (vendorItems[1]) { %>
-                <a class="btn btn-primary mb-3 mr-1" href="#vendorItemsCarousel" role="button" data-slide="prev">
+                <a class="btn btn-dark mb-3 mr-1" href="#vendorItemsCarousel" role="button" data-slide="prev">
                     <i class="fa fa-arrow-left"></i>
                 </a>
-                <a class="btn btn-primary mb-3 " href="#vendorItemsCarousel" role="button" data-slide="next">
+                <a class="btn btn-dark mb-3 " href="#vendorItemsCarousel" role="button" data-slide="next">
                     <i class="fa fa-arrow-right"></i>
                 </a>
                 <% } %>

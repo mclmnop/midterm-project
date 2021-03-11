@@ -59,14 +59,14 @@
             <input class="form-control" type="text" placeholder="Description" name="description" />
             <input class="form-control" type="text" placeholder="Price" name="price" pattern="\d+(\.\d{1,2})?" />
             <input class="form-control" type="text" placeholder="Image URL" name="image_url" />
-            <button class="btn btn-primary" type="submit">Submit changes</button>
+            <button class="btn btn-dark" type="submit">Submit changes</button>
             <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
           </form>
           <form method="POST" action="/items/<%= searchResult.id%>/edit" class="form-inline form-second">
-            <button class="btn btn-primary" type="submit" name='sold' value='Mark as sold'>Mark as sold</button>
+            <button class="btn btn-dark" type="submit" name='sold' value='Mark as sold'>Mark as sold</button>
           </form>
           <form method="POST" action="/items/<%= searchResult.id%>/delete" class="form-inline form-second">
-            <button class="btn btn-primary" type="submit" name='remove'>Remove listing</button>
+            <button class="btn btn-dark" type="submit" name='remove'>Remove listing</button>
           </form>
         </div>
       </div>
