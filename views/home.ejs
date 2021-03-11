@@ -46,13 +46,13 @@
   </head>
 
   <body>
-    <div class="container">
-      <div class="jumbotron-fluid">
+    <!-- <div class="container"> -->
+      <div class="jumbotron-fluid pb-5">
         <div class="container text-center">
           <h1 class="display-1">Vend</h1>
           <h2 class="lead">The place to buy and sell your stuff</h2>
           <% if (isVendor) { %>
-          <a href="/items/item/new"><h2 class="lead">Create New Listing</h2></a>
+          <a href="/items/item/new" class="btn btn-primary m-4 ">Create New Listing</a>
           <% } %>
         </div>
 
@@ -81,7 +81,7 @@
           </form>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
 
     <!-- Featured Items -->
     <section class="pt-5 pb-5">
