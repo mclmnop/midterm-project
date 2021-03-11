@@ -14,7 +14,7 @@
 const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
-const { searchWithPrice } = require('../lib/db_helpers')
+const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers')
 
 module.exports = (db) => {
 
@@ -22,13 +22,21 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userID = req.session.userId;
 
-    const query = searchWithPrice(req)
+    const isVendor =`
+      SELECT *
+      FROM users
+      WHERE id = $1;
+    `;
 
-    db.query(query[0], query[1])
+    const query = searchWithPrice(req)
+    Promise.all([
+      db.query(query[0], query[1]),
+      db.query(isVendor, [userID]),
+    ])
       .then(data => {
-        const items = data.rows;
-        console.log('result allo', items)
-        const templateVars = { searchResult: items, userID }
+        const items = data[0].rows;
+        const isVendor = checkVendorIfCookie(data[1], userID)
+        const templateVars = { searchResult: items, userID, isVendor }
         res.render('items_search', templateVars)
       })
       .catch(err => {
@@ -236,7 +244,7 @@ module.exports = (db) => {
       `
       queryParams = [userID];
     }
-    //adding columns to be modified
+    //adding columns to be modified, if only one argument, remvoeve parenthesis in query
       else if (queryParams.length === 2){
       queryString += `
       ${keys} = (${values})
@@ -283,5 +291,28 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  router.post("/:id/favourites", (req, res) => {
+    const item_id = req.params.id;
+    const user_id = req.session.userId;
+
+    const queryString =
+    `
+      INSERT INTO
+      favourites(item_id, user_id)
+      VALUES ($1, $2)
+    `;
+    db.query(queryString, [item_id, user_id])
+      .then(data => {
+        res.redirect('/profile')
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+
   return router;
 };
