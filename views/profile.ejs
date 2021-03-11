@@ -78,8 +78,8 @@
       </div>
     </section>
 
-     <!-- User Favourites -->
-     <% if (userID && !isVendor) { %>
+    <!-- User Favourites -->
+    <% if (userID && !isVendor) { %>
 
       <section class="pt-5 pb-5">
         <div class="container">
@@ -133,6 +133,9 @@
                                     <img class="img-fluid" alt="<%= userFavourites[index][0].name %>" src=" <%= userFavourites[index][0].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= userFavourites[index][0].name %></h4>
+                                      <% if (userFavourites[index][0].is_sold == 'true') { %>
+                                        <h5>SOLD</h5>
+                                        <% } %>
                                       <p class="card-text"><%= userFavourites[index][0].description %></p>
 
                                     </div>
@@ -148,6 +151,9 @@
                                     <img class="img-fluid" alt="<%= userFavourites[index][1].name %>" src=" <%= userFavourites[index][1].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= userFavourites[index][1].name %></h4>
+                                      <% if (userFavourites[index][1].is_sold == 'true') { %>
+                                        <h5>SOLD</h5>
+                                        <% } %>
                                       <p class="card-text"><%= userFavourites[index][1].description %></p>
 
                                     </div>
@@ -163,6 +169,9 @@
                                       <img class="img-fluid" alt="<%= userFavourites[index][2].name %>" src=" <%= userFavourites[index][2].image_url %>">
                                       <div class="card-body">
                                         <h4 class="card-title"> <%= userFavourites[index][2].name %></h4>
+                                        <% if (userFavourites[index][2].is_sold == 'true') { %>
+                                          <h5>SOLD</h5>
+                                          <% } %>
                                         <p class="card-text"><%= userFavourites[index][2].description %></p>
 
                                       </div>
@@ -240,6 +249,9 @@
                                     <img class="img-fluid" alt="<%= vendorItems[index][0].name %>" src=" <%= vendorItems[index][0].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= vendorItems[index][0].name %></h4>
+                                      <% if (vendorItems[index][0].is_sold) { %>
+                                        <h5>SOLD</h5>
+                                        <% } %>
                                       <p class="card-text"><%= vendorItems[index][0].description %></p>
 
                                     </div>
@@ -255,6 +267,9 @@
                                     <img class="img-fluid" alt="<%= vendorItems[index][1].name %>" src=" <%= vendorItems[index][1].image_url %>">
                                     <div class="card-body">
                                       <h4 class="card-title"> <%= vendorItems[index][1].name %></h4>
+                                      <% if (vendorItems[index][1].is_sold) { %>
+                                        <h5>SOLD</h5>
+                                        <% } %>
                                       <p class="card-text"><%= vendorItems[index][1].description %></p>
 
                                     </div>
@@ -270,6 +285,9 @@
                                       <img class="img-fluid" alt="<%= vendorItems[index][2].name %>" src=" <%= vendorItems[index][2].image_url %>">
                                       <div class="card-body">
                                         <h4 class="card-title"> <%= vendorItems[index][2].name %></h4>
+                                        <% if (vendorItems[index][2].is_sold) { %>
+                                          <h5>SOLD</h5>
+                                          <% } %>
                                         <p class="card-text"><%= vendorItems[index][2].description %></p>
 
                                       </div>
