@@ -35,33 +35,31 @@
           <hr>
           <% for (let item in searchResult) {%>
           <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="well search-result">
-                      <div class="row">
-                          <a href="/items/<%= searchResult[item].id%>">
-                              <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                                  <img class="img-responsive" src="<%= searchResult[item].image_url%>" alt="">
-                              </div>
-                              <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                                  <h3><%= searchResult[item].name%></h3>
-                                  <p><%= searchResult[item].description%></p>
-                                  <p>Price :<%= searchResult[item].price / 100 %> $$$</p>
-                                  <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
-                              </div>
-                          </a>
-                          <% if (userID && !isVendor) { %>
-                            <div class="form-check">
-                              <form method="POST" action="/items/<%= searchResult[item].id%>/favourites">
-                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
-                                <label class="form-check-label" for="defaultCheck1">
-                                  Add as favourite
-                                </label>
-                              </form>
-                            </div>
-                          <% } %>
+            <div class="well search-result col-12">
+                <!-- <div class="row"> -->
+                    <a href="/items/<%= searchResult[item].id%>">
+                        <div class="">
+                            <img class="img-responsive" src="<%= searchResult[item].image_url%>" alt="">
+                        </div>
+                        <div class="">
+                            <h3><%= searchResult[item].name%></h3>
+                            <p><%= searchResult[item].description%></p>
+                            <p>Price :<%= searchResult[item].price / 100 %> $$$</p>
+                            <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
+                        </div>
+                    </a>
+                    <% if (userID && !isVendor) { %>
+                      <div class="form-check">
+                        <form method="POST" action="/items/<%= searchResult[item].id%>/favourites">
+                          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
+                          <label class="form-check-label" for="defaultCheck1">
+                            Add as favourite
+                          </label>
+                        </form>
                       </div>
-                  </div>
-              </div>
+                    <% } %>
+                <!-- </div> -->
+            </div>
           </div>
           <% } %>
       </div>
