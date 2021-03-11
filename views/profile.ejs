@@ -28,13 +28,14 @@
   </head>
 
   <body>
-    <section class="text-center text-white">
-      <h1 class="display-2"><%=userInfo.name%>'s PROFILE</h1>
+    <section class="text-center">
+      <h1 class="display-2 "><%=userInfo.name%>'s PROFILE</h1>
     </section>
 
     <section class="container justify-content-center">
       <div class="d-flex justify-content-around">
         <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
+        <a class="btn btn-dark" href="/messages">Messages</a>
         <% if (isVendor) { %>
         <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
         <% } %>
