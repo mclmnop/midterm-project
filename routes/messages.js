@@ -5,11 +5,17 @@ const router  = express.Router();
 module.exports = (db) => {
   router.get("/", (req, res) => {
     const userID = req.session.userId;
-    db.query(`
+/*     db.query(`
     SELECT users.name, count(messages.id), messages.item_id, messages.vendor_id FROM users
         JOIN messages on users.id = messages.vendor_id
         WHERE messages.user_id = $1 OR messages.vendor_id =$1
         GROUP BY users.id, messages.item_id, messages.vendor_id;
+    `, [userID]) */
+    db.query(`
+      SELECT distinct sender.name as senderName, sender.id as sender_id,receiver.name as receiverName, receiver.id as receiver_id,msg.message_content, msg.date_created, msg.item_id
+      FROM messages msg inner join users sender on msg.sender_id = sender.id
+      inner join users receiver on msg.recipient_id = receiver.id
+      WHERE sender.id = $1
     `, [userID])
       .then(data => {
 
@@ -33,7 +39,7 @@ module.exports = (db) => {
     const { message } = req.body;
     let time = new Date();
     if (userId) {
-      db.query(`INSERT INTO messages (user_id, message_content, date_created, item_id, vendor_id) SELECT $1, $2, $3, $4, vendor_id FROM items WHERE items.id = $4;`, [userId, message, time, req.params.id])
+      db.query(`INSERT INTO messages (sender_id, message_content, date_created, item_id, recipient_id) SELECT $1, $2, $3, $4, vendor_id FROM items WHERE items.id = $4;`, [userId, message, time, req.params.id])
       .then(result => {
         //need to discuss what goes inside the message form
         console.log(result)
@@ -81,7 +87,8 @@ module.exports = (db) => {
     }
   });
 
-  router.get("/:itemId/vendors/:vendorId/", (req, res) => {
+  router.get("/:sender_id/", (req, res) => {
+    console.log('getting here?')
     const itemID = req.params.itemId;
     const vendorID = req.params.vendorId;
     const userID = req.session.userId;
@@ -152,3 +159,11 @@ module.exports = (db) => {
 
 
 
+
+/* db.query(`
+   SELECT distinct sender.name as senderName, sender.id as sender_id,
+   receiver.name as receiverName, receiver.id as receiver_id,
+   msg.message_content, msg.date_created, msg.item_id
+   FROM messages msg inner join users sender on msg.sender_id = sender.id
+   inner join users receiver on msg.recipient_id = receiver.id
+   `) */

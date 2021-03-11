@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
   </head>
 
@@ -23,7 +23,7 @@
     <% for (let message of data.rows) {%>
       <div class="main-container">
         <div class="container">
-          <p></p><a href="/messages/<%= message.item_id %>/vendors/<%= message.vendor_id %>"><%= message.name %></a>
+          <p></p><a href="/messages/<%= message.sender_id %>/<%= message.item_id %>"><%= message.receivername %></a>
         </div>
       </div>
     <%}%>
