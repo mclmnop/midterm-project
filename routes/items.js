@@ -11,7 +11,6 @@
 /items/:id get this item id
 /items/:id/edit edit this item id*/
 
-const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
 const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers');
@@ -20,18 +19,8 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const key  = process.env.SENDGRID_API_KEY;
 
-
-
-const message = {
-  from: 'elonmusk@tesla.com', // Sender address
-  to: 'fiveg38978@mailnest.net',         // List of recipients
-  subject: 'Design Your Model S | Tesla', // Subject line
-  text: 'Have the most fun you can in a car. Get your Tesla today!' // Plain text body
-};
-
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 module.exports = (db) => {
@@ -40,22 +29,22 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     const userID = req.session.userId;
 
-    const isVendor =`
+    const isVendor = `
       SELECT *
       FROM users
       WHERE id = $1;
     `;
 
-    const query = searchWithPrice(req)
+    const query = searchWithPrice(req);
     Promise.all([
       db.query(query[0], query[1]),
       db.query(isVendor, [userID]),
     ])
       .then(data => {
         const items = data[0].rows;
-        const isVendor = checkVendorIfCookie(data[1], userID)
-        const templateVars = { searchResult: items, userID, isVendor }
-        res.render('items_search', templateVars)
+        const isVendor = checkVendorIfCookie(data[1], userID);
+        const templateVars = { searchResult: items, userID, isVendor };
+        res.render('items_search', templateVars);
       })
       .catch(err => {
         res
@@ -74,7 +63,7 @@ module.exports = (db) => {
       JOIN users ON items.vendor_id = users.id
       WHERE items.id = $1
       AND is_active = 'true'
-    `
+    `;
     let isVendor =
     `
       SELECT is_vendor
@@ -85,33 +74,33 @@ module.exports = (db) => {
       db.query(getItemInfo, [req.params.id]),
       db.query(isVendor, [userID])
     ])
-    .then(data => {
-      console.log('item page item info ',data[0].rows[0], 'user ID', userID )
-      const items = data[0].rows[0];
-      if(!userID){
-        isVendor = false;
-      } else {
-        isVendor = data[1].rows[0].is_vendor;
-      }
-      const templateVars = { searchResult: items, userID, isVendor }
-      if (isVendor){
-        res.render('itemSearched_vendor', templateVars)
-      } else {
-        res.render('itemSearched_user', templateVars)
-      }
-    })
-    .catch(err => {
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
+      .then(data => {
+        console.log('item page item info ',data[0].rows[0], 'user ID', userID);
+        const items = data[0].rows[0];
+        if (!userID) {
+          isVendor = false;
+        } else {
+          isVendor = data[1].rows[0].is_vendor;
+        }
+        const templateVars = { searchResult: items, userID, isVendor };
+        if (isVendor) {
+          res.render('itemSearched_vendor', templateVars);
+        } else {
+          res.render('itemSearched_user', templateVars);
+        }
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   router.get("/:id/edit", (req, res) => {
     const userID = req.session.userId;
 
     if (!userID) {
-      res.redirect('/login')
+      res.redirect('/login');
       return;
     }
     const getItemInfo =
@@ -119,7 +108,7 @@ module.exports = (db) => {
       SELECT *
       FROM items
       WHERE id = $1
-    `
+    `;
     const isVendor =
     `
       SELECT *
@@ -131,32 +120,32 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
     //db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
-    .then(data => {
-      const items = data[0].rows[0];
-      const user = data[1].rows[0];
-      console.log(items);
-      //res.json({ items });
-      const templateVars = { searchResult: items, userID }
-      console.log('data rows 1',data[1].rows[0].is_vendor)
-      if (user.is_vendor === true && items.vendor_id === user.id){
-        res.render('item_edit', templateVars)
-      } else {
-        res.redirect('/home')
-      }
+      .then(data => {
+        const items = data[0].rows[0];
+        const user = data[1].rows[0];
+        console.log(items);
+        //res.json({ items });
+        const templateVars = { searchResult: items, userID };
+        console.log('data rows 1',data[1].rows[0].is_vendor);
+        if (user.is_vendor === true && items.vendor_id === user.id) {
+          res.render('item_edit', templateVars);
+        } else {
+          res.redirect('/home');
+        }
 
-    })
-    .catch(err => {
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   router.get("/item/new", (req, res) => {
     const userID = req.session.userId;
 
     if (!userID) {
-      res.redirect('/login')
+      res.redirect('/login');
       return;
     }
     const getItemInfo =
@@ -164,7 +153,7 @@ module.exports = (db) => {
       SELECT *
       FROM items
       WHERE id = $1
-    `
+    `;
     const isVendor =
     `
       SELECT is_vendor
@@ -176,39 +165,39 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
     //db.query(`SELECT * FROM items WHERE id = $1`, [req.params.id])
-    .then(data => {
-      const items = data[0].rows[0];
-      console.log(items);
-      //res.json({ items });
-      const templateVars = { searchResult: items, userID }
-      console.log('data rows 1',data[1].rows[0].is_vendor)
-      if (data[1].rows[0].is_vendor === true){
-        res.render('item_new', templateVars)
-      } else {
-        res.redirect('/home')
-      }
+      .then(data => {
+        const items = data[0].rows[0];
+        console.log(items);
+        //res.json({ items });
+        const templateVars = { searchResult: items, userID };
+        console.log('data rows 1',data[1].rows[0].is_vendor);
+        if (data[1].rows[0].is_vendor === true) {
+          res.render('item_new', templateVars);
+        } else {
+          res.redirect('/home');
+        }
 
-    })
-    .catch(err => {
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   //needs req.body with values (name, description, price, image_url, vendor_id,), works except for vendor Id
   router.post("/item/new", (req, res) => {
     console.log(req.body);
-    const creation_date = new Date().toISOString();
+    const creationDate = new Date().toISOString();
     const vendor = req.session.userId;
-    let queryParams = [req.body.name, req.body.description, req.body.price * 100, req.body.image_url, vendor, creation_date];
+    let queryParams = [req.body.name, req.body.description, req.body.price * 100, req.body.image_url, vendor, creationDate];
     const queryString =
     `
       INSERT INTO items (name, description, price, image_url, vendor_id, creation_date)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `;
-    console.log(queryString, queryParams)
+    console.log(queryString, queryParams);
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
@@ -228,7 +217,7 @@ module.exports = (db) => {
     let queryParams = [req.params.id];
     let userID = req.params.id;
 
-    console.log('allo',req.body)
+    console.log('allo',req.body);
 
     let queryString = `
     UPDATE items
@@ -245,7 +234,7 @@ module.exports = (db) => {
         if (key === 'price') {
           keys.push(key);
           queryParams.push(req.body[key] * 100);
-          values.push(`$${queryParams.length}`)
+          values.push(`$${queryParams.length}`);
         } else {
           keys.push(key);
           queryParams.push(req.body[key]);
@@ -254,37 +243,35 @@ module.exports = (db) => {
       }
     }
     //if mark as sold button was hit
-    if(req.body.sold) {
+    if (req.body.sold) {
 
       queryString += `
       is_sold = true
       WHERE id = $1
       RETURNING *
-      `
+      `;
       queryParams = [userID];
-    }
-
+    } else if (queryParams.length === 2) {
     //adding columns to be modified, if only one argument, remvoeve parenthesis in query
-      else if (queryParams.length === 2){
       queryString += `
       ${keys} = (${values})
       WHERE id = $1
       RETURNING *
-    `
+    `;
     } else {
       queryString += `
       (${keys}) = (${values})
       WHERE id = $1
       RETURNING *
-    `
+    `;
     }
-    console.log(queryString, queryParams)
+    console.log(queryString, queryParams);
     db.query(queryString, queryParams)
       .then(data => {
         const items = data.rows;
         console.log(items);
         //res.json({ items });
-        res.redirect(`/items/${req.params.id}`)
+        res.redirect(`/items/${req.params.id}`);
       })
       .catch(err => {
         res
@@ -302,7 +289,7 @@ module.exports = (db) => {
       WHERE id = $1
     `;
     db.query(queryString, queryParams)
-      .then(data => {
+      .then(() => {
         res.redirect('/home');
       })
       .catch(err => {
@@ -313,8 +300,8 @@ module.exports = (db) => {
   });
 
   router.post("/:id/favourites", (req, res) => {
-    const item_id = req.params.id;
-    const user_id = req.session.userId;
+    const itemID = req.params.id;
+    const userID = req.session.userId;
 
     const queryString =
     `
@@ -322,9 +309,9 @@ module.exports = (db) => {
       favourites(item_id, user_id)
       VALUES ($1, $2)
     `;
-    db.query(queryString, [item_id, user_id])
-      .then(data => {
-        res.redirect('/profile')
+    db.query(queryString, [itemID, userID])
+      .then(() => {
+        res.redirect('/profile');
       })
       .catch(err => {
         res
@@ -333,14 +320,13 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/:id/contact", (req, res) => {
-    const item_id = req.params.id;
-    const user_id = req.session.userId;
-        //if mark as sold button was hit
-        if(req.body.sendNotif) {
-          console.log('Buyer? 💍', req.body.buyer_id)
+  //Send SMS and email to buyer
 
-        }
+  router.post("/:id/contact", (req, res) => {
+    const itemID = req.params.id;
+    if (req.body.sendNotif) {
+      console.log('Buyer? 💍', req.body.buyer_id);
+    }
     const queryString =
     `
       SELECT *
@@ -350,43 +336,44 @@ module.exports = (db) => {
 
     db.query(queryString, [req.body.buyer_id])
       .then(data => {
-        //console.log(data);
+        // these would be the the real email and phone to use, using dummy ones for dev phase
+        const phone = data.rows[0].phone;
+        const email = data.rows[0].email;
+        const buyerName = data.rows[0].name;
 
-        // send SMS
-/*         client.messages
-          .create({
-            to: '+15144338832',
-            from: '+14388003069',
-            body: 'You won an item on Vend! Please connect to your account',
-          })
-          .then(message => console.log(message.sid)); */
 
         //send email
-        console.log('kiki', key, authToken)
+        //console.log('kiki', key, authToken)
         const msg = {
           to: 'tesalov311@naymeo.com',
           from: 'mc.lhl2021@gmail.com',
           subject: 'You won an item on Vend! ',
           text: 'Please connect to your account',
-          html: '<strong>Congratulation</strong>',
+          html: `<strong>Congratulations ${buyerName}</strong>`,
         };
-        sgMail
-          .send(msg)
-          .then(() => {
-            console.log('Email sent')
-          })
-          .catch((error) => {
-            console.error(error)
-          })
-        res.redirect(`/items/${item_id}/edit`)
+        sgMail.send(msg);
+        res.redirect(`/items/${itemID}/edit`);
+
       })
+      .then(() => {
+        console.log('Email sent');
+      })
+      .then(() => {
+        // send SMS
+        return client.messages
+          .create({
+            to: '+15144338832',
+            from: '+14388003069',
+            body: `You won an item on Vend! Please connect to your account`,
+          });
+
+      })
+      .then(message => console.log(message.sid))
       .catch(err => {
         res
           .status(500)
           .json({ error: err.message });
       });
   });
-
-
   return router;
 };
