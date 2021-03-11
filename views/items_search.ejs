@@ -31,22 +31,21 @@
     <div class ="searchResult">
       <%= searchResult.id %>
 
-      <div class="container bootstrap snippets bootdey">
+      <div class="container">
           <hr>
           <% for (let item in searchResult) {%>
-          <div class="row">
-            <div class="well search-result col-12">
-                <!-- <div class="row"> -->
-                    <a href="/items/<%= searchResult[item].id%>">
-                        <div class="">
-                            <img class="img-responsive" src="<%= searchResult[item].image_url%>" alt="">
-                        </div>
-                        <div class="">
-                            <h3><%= searchResult[item].name%></h3>
-                            <p><%= searchResult[item].description%></p>
-                            <p>Price :<%= searchResult[item].price / 100 %> $$$</p>
-                            <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
-                        </div>
+          <div class="well search-result w-100 mb-3 justify-content-md-center">
+            <div class="row">
+              <div class="col-2">
+                <a href="/items/<%= searchResult[item].id%>">
+                   <img class="img-responsive" src="<%= searchResult[item].image_url%>" alt="">
+              </div>
+              <div class="col-10">
+                <h3><%= searchResult[item].name%></h3>
+                <p><%= searchResult[item].description%></p>
+                <p>Price :<%= searchResult[item].price / 100 %> $$$</p>
+                <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
+              </div>
                     </a>
                     <% if (userID && !isVendor) { %>
                       <div class="form-check">
@@ -58,8 +57,8 @@
                         </form>
                       </div>
                     <% } %>
-                <!-- </div> -->
-            </div>
+                </div>
+
           </div>
           <% } %>
       </div>
