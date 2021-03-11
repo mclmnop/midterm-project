@@ -15,17 +15,22 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
-    <% for (let i = 0; i < messages.length; i++) {%>
+    <% options = {
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric', second: 'numeric',
+      hour12: false,
+      timeZone: 'America/Los_Angeles'
+    }; for (let i = 0; i < messages.length; i++) {%>
     <div class="main-container">
       <div class="container">
         <p><%= messages[i] %></p>
-        <span class="time-right"><%= times[i] %></span>
+        <span class="time-right"><%= new Intl.DateTimeFormat('en-GB', options).format(times[i]) %></span>
       </div>
     </div>
     <%}%>
