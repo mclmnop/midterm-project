@@ -21,11 +21,16 @@
 
   <body>
 
-    <% for (let i = 0; i < messages.length; i++) {%>
+    <% options = {
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric', second: 'numeric',
+      hour12: false,
+      timeZone: 'America/Los_Angeles'
+    }; for (let i = 0; i < messages.length; i++) {%>
     <div class="main-container">
       <div class="container">
         <p><%= messages[i] %></p>
-        <span class="time-right"><%= times[i] %></span>
+        <span class="time-right"><%= new Intl.DateTimeFormat('en-GB', options).format(times[i]) %></span>
       </div>
     </div>
     <%}%>
