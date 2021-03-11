@@ -66,6 +66,12 @@
           <form method="POST" action="/items/<%= searchResult.id%>/delete" class="form-inline form-second">
             <button class="btn btn-primary" type="submit" name='remove'>Remove listing</button>
           </form>
+          <div>
+            <form method="POST" action="/items/<%= searchResult.id%>/contact" class="form-inline form-second">
+              <input class="form-control" type="text" placeholder="buyer ID" name="buyer_id" />
+              <button class="btn btn-primary" type="submit" name='sendNotif' value='Send Notification'>Send notification to buyer</button>
+            </form>
+          </div>
         </div>
       </div>
   </div>

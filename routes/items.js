@@ -15,16 +15,15 @@ const { query } = require('express');
 const express = require('express');
 const router  = express.Router();
 const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers');
-const nodemailer = require('nodemailer');
+// require the Twilio module and create a REST client
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const key  = process.env.SENDGRID_API_KEY;
 
-let transport = nodemailer.createTransport({
-  host: 'smtp.mailtrap.io',
-  port: 2525,
-  auth: {
 
-  }
-
-});
 
 const message = {
   from: 'elonmusk@tesla.com', // Sender address
@@ -352,14 +351,33 @@ module.exports = (db) => {
     db.query(queryString, [req.body.buyer_id])
       .then(data => {
         //console.log(data);
-        transport.sendMail(message, function(err, info) {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log(info);
-          }
-      });
 
+        // send SMS
+/*         client.messages
+          .create({
+            to: '+15144338832',
+            from: '+14388003069',
+            body: 'You won an item on Vend! Please connect to your account',
+          })
+          .then(message => console.log(message.sid)); */
+
+        //send email
+        console.log('kiki', key, authToken)
+        const msg = {
+          to: 'tesalov311@naymeo.com',
+          from: 'mc.lhl2021@gmail.com',
+          subject: 'You won an item on Vend! ',
+          text: 'Please connect to your account',
+          html: '<strong>Congratulation</strong>',
+        };
+        sgMail
+          .send(msg)
+          .then(() => {
+            console.log('Email sent')
+          })
+          .catch((error) => {
+            console.error(error)
+          })
         res.redirect(`/items/${item_id}/edit`)
       })
       .catch(err => {
