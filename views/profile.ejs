@@ -33,10 +33,12 @@
     </section>
 
     <section class="container justify-content-center">
-      <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
-      <% if (isVendor) { %>
-      <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
-      <% } %>
+      <div class="d-flex justify-content-around">
+        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#updateInfo" aria-expanded="false" aria-controls="updateInfo">Update Your info</button>
+        <% if (isVendor) { %>
+        <a class="btn btn-dark" href="/items/item/new" role="button">Create New Listing</a>
+        <% } %>
+      </div>
       <!-- Update Profile -->
       <div class="collapse" id="updateInfo">
         <div class="form">
