@@ -14,6 +14,7 @@
 const express = require('express');
 const router  = express.Router();
 const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers');
+const { sendEmailNewMessage, sendSMSNewMessage } = require('../lib/notifications_helpers');
 // require the Twilio module and create a REST client
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -340,35 +341,38 @@ module.exports = (db) => {
         const phone = data.rows[0].phone;
         const email = data.rows[0].email;
         const buyerName = data.rows[0].name;
-
-
+        //sendEmailNewMessage(data.rows[0])
         //send email
         //console.log('kiki', key, authToken)
-        const msg = {
+        /*         const msg = {
           to: 'tesalov311@naymeo.com',
           from: 'mc.lhl2021@gmail.com',
           subject: 'You won an item on Vend! ',
           text: 'Please connect to your account',
           html: `<strong>Congratulations ${buyerName}</strong>`,
         };
-        sgMail.send(msg);
+        sgMail.send(msg); */
         res.redirect(`/items/${itemID}/edit`);
 
+        Promise.all([sendEmailNewMessage(data.rows[0]), sendSMSNewMessage(data.rows[0])])
+          //.then(message => console.log('retour email', message[0], 'retour sms', message[1]))
       })
-      .then(() => {
+      .then(message => console.log('retour email', message[0], 'retour sms', message[1]))
+   /*   .then(() => {
         console.log('Email sent');
       })
       .then(() => {
         // send SMS
-        return client.messages
+         return client.messages
           .create({
             to: '+15144338832',
             from: '+14388003069',
             body: `You won an item on Vend! Please connect to your account`,
           });
 
+
       })
-      .then(message => console.log(message.sid))
+      .then(message => console.log(message.sid))*/
       .catch(err => {
         res
           .status(500)
