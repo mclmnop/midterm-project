@@ -35,7 +35,7 @@
     <div class ="registration-container">
       <h3>Registration Page</h3>
       <div class ="form">
-        <form method="POST" action="/register" class="form-inline form-second">
+        <form method="POST" action="/register" class="form-second">
           <input class="form-control" type="text" placeholder="Name" name="name" />
           <input class="form-control" type="email" placeholder="Email" name="email" />
           <input class="form-control" type="password" placeholder="password" name="password" />
@@ -45,8 +45,14 @@
           <input class="form-control" type="text" placeholder="province" name="province" />
           <input class="form-control" type="text" placeholder="country" name="country" />
           <input class="form-control" type="text" placeholder="postal code" name="postalCode" />
-          <input type="checkbox" name="isVendor" checked>Check if you are selling?</input>
+          <!-- <div class="form-check"> -->
+
+            <input type="checkbox" class="btn-check" name="isVendor" id="btn-check" autocomplete="off">
+            <label class="btn btn-dark" for="btn-check">Want to sell? ☝🏻 Click here!!!!!!!</label>
+          </input>
+          <!-- </div> -->
           <button class="btn btn-dark" type="submit">Register</button>
+
           <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
         </form>
       </div>
