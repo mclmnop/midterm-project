@@ -9,6 +9,3 @@ module.exports = (db) => {
   });
   return router;
 };
-
-
-// $2b$12$1O6bB1D7YPdYLFN7olLDceK.7R7YJQoPb0m0RhHEDSrW4xqBY3BKO
