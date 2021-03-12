@@ -28,48 +28,58 @@
   </head>
 
   <body>
-    <div class ="searchResult">
+    <div class ="searchResult container">
 
-      <div class="container bootstrap snippets bootdey">
+      <div class="container pb-4">
           <hr>
           <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="col-12">
                   <div class="well search-result">
                       <div class="row">
-                          <a href="/items/<%= searchResult.id%>/edit">
-                              <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                                  <img class="img-responsive" src="<%= searchResult.image_url%>" alt="">
-                              </div>
-                              <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                                  <h3><%= searchResult.name%></h3>
-                                  <p><%= searchResult.description%></p>
-                                  <p>Price :<%= searchResult.price / 100 %> $$$</p>
-                              </div>
-                          </a>
+                          <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                              <img class="img-responsive img-fluid" src="<%= searchResult.image_url%>" alt="">
+                          </div>
+                          <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
+                              <h2 class="display-4"><%= searchResult.name%></h2>
+                              <p><%= searchResult.description%></p>
+                              <p>Price: $<%= searchResult.price / 100 %></p>
+                          </div>
                       </div>
                   </div>
               </div>
           </div>
       </div>
 
-      <div class = "messageToVendor">
-        <div class ="form">
-          <form method="POST" action="/items/<%= searchResult.id%>/edit" class="form-inline form-second">
-            <input class="form-control" type="text" placeholder="Name" name="name" />
-            <input class="form-control" type="text" placeholder="Description" name="description" />
-            <input class="form-control" type="text" placeholder="Price" name="price" pattern="\d+(\.\d{1,2})?" />
-            <input class="form-control" type="text" placeholder="Image URL" name="image_url" />
-            <button class="btn btn-dark" type="submit">Submit changes</button>
-            <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
-          </form>
-          <form method="POST" action="/items/<%= searchResult.id%>/edit" class="form-inline form-second">
-            <button class="btn btn-dark" type="submit" name='sold' value='Mark as sold'>Mark as sold</button>
-          </form>
-          <form method="POST" action="/items/<%= searchResult.id%>/delete" class="form-inline form-second">
-            <button class="btn btn-dark" type="submit" name='remove'>Remove listing</button>
-          </form>
-        </div>
+
+      <div class ="form">
+        <form method="POST" action="/items/<%= searchResult.id%>/edit" class="form">
+          <div class="form-row mb-2">
+            <div class="col">
+              <input class="form-control" type="text" placeholder="Name" name="name" />
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" placeholder="Description" name="description" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <input class="form-control" type="text" placeholder="Price" name="price" pattern="\d+(\.\d{1,2})?" />
+            </div>
+            <div class="col">
+              <input class="form-control" type="text" placeholder="Image URL" name="image_url" />
+            </div>
+          </div>
+          <button class="btn btn-dark" type="submit">Submit changes</button>
+          <script src="https://kit.fontawesome.com/43bb42825d.js" crossorigin="anonymous"></script>
+        </form>
+        <form method="POST" action="/items/<%= searchResult.id%>/edit" class="form-inline form-second">
+          <button class="btn btn-dark" type="submit" name='sold' value='Mark as sold'>Mark as sold</button>
+        </form>
+        <form method="POST" action="/items/<%= searchResult.id%>/delete" class="form-inline form-second">
+          <button class="btn btn-dark" type="submit" name='remove'>Remove listing</button>
+        </form>
       </div>
+
   </div>
 
     </div>
