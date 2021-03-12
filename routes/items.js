@@ -36,6 +36,12 @@ module.exports = (db) => {
       WHERE id = $1;
     `;
 
+    const userFavouritesQuery =`
+      SELECT * FROM items
+      JOIN favourites ON item_id = items.id
+      WHERE favourites.user_id = $1;
+    `;
+
     const query = searchWithPrice(req);
     Promise.all([
       db.query(query[0], query[1]),
@@ -45,6 +51,7 @@ module.exports = (db) => {
         const items = data[0].rows;
         const isVendor = checkVendorIfCookie(data[1], userID);
         const templateVars = { searchResult: items, userID, isVendor };
+        console.log('Pis mon vin',items)
         res.render('items_search', templateVars);
       })
       .catch(err => {
@@ -76,15 +83,15 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
       .then(data => {
-        //console.log('item page item info ',data[0].rows[0], 'user ID', userID);
+        console.log('item page item info ',data[0].rows[0], 'user ID', userID);
         const items = data[0].rows[0];
         if (!userID) {
           isVendor = false;
         } else {
           isVendor = data[1].rows[0].is_vendor;
         }
-        const templateVars = { searchResult: items, vendorInfo: data[1].rows[0], userID };
-        //console.log('VAAAARS', templateVars)
+        const templateVars = { searchResult: items, vendorInfo: data[1].rows[0], userID, isVendor };
+        console.log('VAAAARS', templateVars)
         if (isVendor) {
           res.render('itemSearched_vendor', templateVars);
         } else {
@@ -358,3 +365,8 @@ module.exports = (db) => {
   });
   return router;
 };
+/* SELECT items.*, users.name as userfirstlastname
+FROM items
+JOIN users ON items.vendor_id = users.id
+WHERE items.id = 14
+AND is_active = 'true'; */

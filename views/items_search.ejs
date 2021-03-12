@@ -34,30 +34,33 @@
       <div class="container">
           <hr>
           <% for (let item in searchResult) {%>
-            <a href="/items/<%= searchResult[item].id%>">
+        <a href="/items/<%= searchResult[item].id%>">
           <div class="well search-result w-100 mb-3 justify-content-md-center">
             <div class="row">
               <div class="col-lg-3 col-md-6">
-                    <img class="img-responsive" src="<%= searchResult[item].image_url%>" alt="">
-                  </div>
-                  <div class="col-lg-8 col-md-6">
-                  <h3><%= searchResult[item].name%></h3>
-                    <p><%= searchResult[item].description%></p>
-                    <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
-                    <p>Price :<%= searchResult[item].price / 100 %> $$$</p>
-                  </div>
-                  <% if (userID && !isVendor) { %>
-                    <div class="form-check">
-                      <form method="POST" action="/items/<%= searchResult[item].id%>/favourites">
-                        <button class="btn btn-dark" type="submit"  >Add To Favourites</button>
-                      </form>
-                    </div>
-                    <% } %>
-                  </div>
+                <img class="img-responsive" src="<%= searchResult[item].image_url%>" alt="">
+                <% if (searchResult[item].is_sold === 'true') { %>
+                  <h5 class="sold">SOLD!</h5>
+                <% } %>
+              </div>
+              <div class="col-lg-8 col-md-6">
+                <h3><%= searchResult[item].name%></h3>
+                <p><%= searchResult[item].description%></p>
+                <p>Posted on : <%= searchResult[item].creation_date.toISOString().slice(0, -14) %></p>
+                <p>Price :<%= searchResult[item].price / 100 %> $$$</p>
+              </div>
+              <% if (userID && !isVendor) { %>
+              <div class="form-check">
+                <form method="POST" action="/items/<%= searchResult[item].id%>/favourites">
+                  <button class="btn btn-dark" type="submit"  >Add To Favourites</button>
+                </form>
+              </div>
+              <% } %>
+              </div>
 
-                </div>
-              </a>
-          <% } %>
+          </div>
+        </a>
+        <% } %>
       </div>
 
     </div>

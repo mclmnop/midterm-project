@@ -1,6 +1,7 @@
 const express = require('express');
 const users = require('./users');
 const router  = express.Router();
+const { sendEmailNewMessage, sendSMSNewMessage } = require('../lib/notifications_helpers');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -33,14 +34,17 @@ module.exports = (db) => {
     const { message } = req.body;
     let time = new Date();
     if (userId) {
-      db.query(`INSERT INTO messages (user_id, message_content, date_created, item_id, vendor_id) SELECT $1, $2, $3, $4, vendor_id FROM items WHERE items.id = $4;`, [userId, message, time, req.params.id])
+      db.query(`INSERT INTO messages (user_id, message_content, date_created, item_id, vendor_id) SELECT $1, $2, $3, $4, vendor_id FROM items WHERE items.id = $4
+      RETURNING *;`, [userId, message, time, req.params.id])
       .then(result => {
         //need to discuss what goes inside the message form
         console.log(result)
         const message = result;
         console.log('rows after insert ', message)
-        return res.redirect("/messages");
+        return Promise.all([sendEmailNewMessage(result.rows[0]), sendSMSNewMessage(result.rows[0])])
       })
+      .then(message => console.log('retour email', message[0], 'retour sms', message[1]))
+      .then(() => res.redirect("/messages"))
       .catch(err => {
         res
           .status(500)
@@ -62,14 +66,18 @@ module.exports = (db) => {
     const { message } = req.body;
     let time = new Date();
     if (userID) {
-      db.query(`INSERT INTO messages (user_id, vendor_id, item_id, message_content, date_created) VALUES ($1, $2, $3, $4, $5)`, [userID, vendorID, itemID, message, time])
+      db.query(`INSERT INTO messages (user_id, vendor_id, item_id, message_content, date_created) VALUES ($1, $2, $3, $4, $5)
+      RETURNING *`
+    , [userID, vendorID, itemID, message, time])
       .then(result => {
         //need to discuss what goes inside the message form
-        console.log(result)
+        console.log("result: ", result);
         const message = result;
         console.log('rows after insert ', message)
-        return res.redirect("back");
+        return Promise.all([sendEmailNewMessage(result.rows[0]), sendSMSNewMessage(result.rows[0])])
       })
+      .then(message => console.log('retour email', message[0], 'retour sms', message[1]))
+      .then(() => res.redirect("back"))
       .catch(err => {
         res
           .status(500)
