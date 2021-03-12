@@ -4,7 +4,7 @@
     <title>Profile</title>
     <header>
       <nav class="navbar">
-        <a href ="/"><button class="logo" href="/">Vend</button></a>
+        <a href ="/"class="logo">Vend<a>
         <% if (!userID) { %>
           <div class="user-info">
             <a href="/login"><p>Log In</p></a>
@@ -15,7 +15,7 @@
             <a href="/profile"><p>Your Profile</p></a>
             <a href="/messages"><p>Messages</p></a>
             <form method="POST", action="/logout" class="form-inline">
-              <button type= "submit" class="">Logout</button>
+              <button type= "submit" class="btn btn-outline-dark btm-sm pb-0 pt-0">Logout</button>
             </form>
           </div>
         <% }%>
@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/header.css" type="text/css" />
     <!-- page-specific styles here: -->
-    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/item_new.css" type="text/css" />
 
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
@@ -46,21 +46,25 @@
   </head>
 
   <body>
-    <section class="container col-5">
-      <h2>Create New Listing:</h2>
-      <div class="form">
+    <section class="container col-5 new-listing rounded">
+      <h2 class="display-2">Create New Listing:</h2>
+      <!-- <div class="form"> -->
         <form method="POST" action='/items/item/new' class='form'>
-          <label for="name">Name:</label>
-          <input class="form-control" type="text" placeholder="name" name="name" id="name">
-          <label for="description">Description:</label>
-          <input class="form-control" type="text" placeholder="description" name="description" id="description">
-          <label for="price">Price:</label>
-          <input class="form-control" type="tel" placeholder="price" name="price" id="price">
-          <label for="image_url">Image url:</label>
-          <input class="form-control" type="text" placeholder="image_url" name="image_url" id="image_url">
-          <button class="btn btn-dark mt-4" type="submit">Sell!</button>
+          <div class="form-group">
+            <input class="form-control" type="text" placeholder="Item Title" name="name" id="name">
+          </div>
+          <div class="form-group">
+          <input class="form-control" type="text" placeholder="Description" name="description" id="description">
+          </div>
+          <div class="form-group">
+          <input class="form-control" type="tel" placeholder="Price" name="price" id="price">
+          </div>
+          <div class="form-group">
+          <input class="form-control" type="text" placeholder="Image URL" name="image_url" id="image_url">
+          <div class="form-group">
+          <button class="btn btn-dark mt-3" type="submit">Submit</button>
         </form>
-      </div>
+      <!-- </div> -->
     </section>
 
 
