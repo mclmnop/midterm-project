@@ -33,15 +33,15 @@
           <a href ="/"><button class="logo" href="/">Vend</button></a>
           <% if (!userID) { %>
             <div class="user-info">
-              <a href="/login"><p>Log In</p></a>
-              <a href="/register"><p>Register</p></a>
+              <a href="/login" class="btn btn-outline-dark btm-sm pb-0 pt-0">Log In</a>
+        <a href="/register" class="btn btn-outline-dark btn -sm pb-0 pt-0">Register</a>
             </div>
           <% } else {%>
             <div class="user-info">
-              <a href="/profile"><p>Your Profile</p></a>
-              <a href="/messages"><p>Messages</p></a>
+              <a href="/profile" class="btn btn-outline-dark btm-sm pb-0 pt-0">Your Profile</a>
+        <a href="/messages" class="btn btn-outline-dark btm-sm pb-0 pt-0">Messages</a>
               <form method="POST", action="/logout" class="form-inline">
-                <button type= "submit" class="">Logout</button>
+                <button type= "submit" class="btn btn-outline-dark btm-sm pb-0 pt-0">Logout</button>
               </form>
             </div>
           <% }%>
