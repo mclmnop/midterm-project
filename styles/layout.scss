@@ -65,3 +65,16 @@ a:hover {
   color: #5c5c5c;
   text-decoration: none;
 }
+
+
+.logo {
+  background: #C89F48;
+  background: -webkit-radial-gradient(bottom left, #C89F48, #1F49FF);
+  background: -moz-radial-gradient(bottom left, #C89F48, #1F49FF);
+  background: radial-gradient(to top right, #C89F48, #1F49FF);
+  background-clip: text ;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 4px white;
+  font-size: 1.5rem;
+}
