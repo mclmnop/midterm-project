@@ -76,7 +76,7 @@ module.exports = (db) => {
         console.log('rows after insert ', message)
         return Promise.all([sendEmailNewMessage(result.rows[0]), sendSMSNewMessage(result.rows[0])])
       })
-      .then(message => console.log('retour email', message[0], 'retour sms', message[1]))
+      .then(message => console.log('Send email result', message[0], 'Send SMS result', message[1]))
       .then(() => res.redirect("back"))
       .catch(err => {
         res
@@ -85,7 +85,7 @@ module.exports = (db) => {
       });
     }
     else {
-      return res.send("why u no log in")
+      return res.send("PLease login to access this page")
     }
   });
 
