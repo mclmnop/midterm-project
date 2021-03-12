@@ -14,14 +14,6 @@
 const express = require('express');
 const router  = express.Router();
 const { searchWithPrice, checkVendorIfCookie } = require('../lib/db_helpers');
-const { sendEmailNewMessage, sendSMSNewMessage } = require('../lib/notifications_helpers');
-// require the Twilio module and create a REST client
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
-const sgMail = require('@sendgrid/mail');
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 module.exports = (db) => {
@@ -29,17 +21,10 @@ module.exports = (db) => {
   //outputs searched item for now works with a name
   router.get("/", (req, res) => {
     const userID = req.session.userId;
-
     const isVendor = `
       SELECT *
       FROM users
       WHERE id = $1;
-    `;
-
-    const userFavouritesQuery =`
-      SELECT * FROM items
-      JOIN favourites ON item_id = items.id
-      WHERE favourites.user_id = $1;
     `;
 
     const query = searchWithPrice(req);
@@ -51,7 +36,6 @@ module.exports = (db) => {
         const items = data[0].rows;
         const isVendor = checkVendorIfCookie(data[1], userID);
         const templateVars = { searchResult: items, userID, isVendor };
-        console.log('Pis mon vin',items)
         res.render('items_search', templateVars);
       })
       .catch(err => {
@@ -83,7 +67,6 @@ module.exports = (db) => {
       db.query(isVendor, [userID])
     ])
       .then(data => {
-        console.log('item page item info ',data[0].rows[0], 'user ID', userID);
         const items = data[0].rows[0];
         if (!userID) {
           isVendor = false;
@@ -91,7 +74,6 @@ module.exports = (db) => {
           isVendor = data[1].rows[0].is_vendor;
         }
         const templateVars = { searchResult: items, vendorInfo: data[1].rows[0], userID, isVendor };
-        console.log('VAAAARS', templateVars)
         if (isVendor) {
           res.render('itemSearched_vendor', templateVars);
         } else {
@@ -329,44 +311,6 @@ module.exports = (db) => {
       });
   });
 
-  //Send SMS and email to buyer
-
-  router.post("/:id/contact", (req, res) => {
-    const itemID = req.params.id;
-    if (req.body.sendNotif) {
-      console.log('Buyer? 💍', req.body.buyer_id);
-    }
-    const queryString =
-    `
-      SELECT *
-      from users
-      WHERE id = $1
-    `;
-
-    db.query(queryString, [req.body.buyer_id])
-      .then(data => {
-        // these would be the the real email and phone to use, using dummy ones for dev phase
-        const phone = data.rows[0].phone;
-        const email = data.rows[0].email;
-        const buyerName = data.rows[0].name;
-
-
-
-        return Promise.all([sendEmailNewMessage(data.rows[0]), sendSMSNewMessage(data.rows[0])])
-          //.then(message => console.log('retour email', message[0], 'retour sms', message[1]))
-      })
-      .then(message => console.log('retour email', message[0], 'retour sms', message[1]))
-      .then(() => res.redirect(`/items/${itemID}/edit`))
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
   return router;
 };
-/* SELECT items.*, users.name as userfirstlastname
-FROM items
-JOIN users ON items.vendor_id = users.id
-WHERE items.id = 14
-AND is_active = 'true'; */
+
