@@ -38,24 +38,27 @@
                   <div class="well search-result">
                       <div class="row">
                         <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
-                            <img class="img-responsive img-fluid" src="<%= searchResult.image_url%>" alt="">
+                          <img class="img-responsive img-fluid" src="<%= searchResult.image_url%>" alt="">
+                          <% if (searchResult.is_sold === 'true') { %>
+                          <h5 class="sold">SOLD!</h5>
+                          <% } %>
                         </div>
                         <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
-                            <h3><%= searchResult.name%></h3>
-                            <p><%= searchResult.description%></p>
-                            <p>Price: $<%= searchResult.price / 100 %></p>
-                            <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
+                          <h3><%= searchResult.name%></h3>
+                          <p><%= searchResult.description%></p>
+                          <p>Price: $<%= searchResult.price / 100 %></p>
+                          <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
                         </div>
-                          <% if (userID && !isVendor) { %>
-                          <div class="form-check">
-                            <form method="POST" action="/items/<%= searchResult.id%>/favourites">
-                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
-                              <label class="form-check-label" for="defaultCheck1">
-                                Add as favourite
-                              </label>
-                            </form>
-                          </div>
-                          <% } %>
+                        <% if (userID && !isVendor) { %>
+                        <div class="form-check">
+                          <form method="POST" action="/items/<%= searchResult.id%>/favourites">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="this.form.submit()">
+                            <label class="form-check-label" for="defaultCheck1">
+                              Add as favourite
+                            </label>
+                          </form>
+                        </div>
+                        <% } %>
                       </div>
                   </div>
               </div>

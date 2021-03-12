@@ -36,6 +36,12 @@ module.exports = (db) => {
       WHERE id = $1;
     `;
 
+    const userFavouritesQuery =`
+      SELECT * FROM items
+      JOIN favourites ON item_id = items.id
+      WHERE favourites.user_id = $1;
+    `;
+
     const query = searchWithPrice(req);
     Promise.all([
       db.query(query[0], query[1]),
@@ -45,6 +51,7 @@ module.exports = (db) => {
         const items = data[0].rows;
         const isVendor = checkVendorIfCookie(data[1], userID);
         const templateVars = { searchResult: items, userID, isVendor };
+        console.log('Pis mon vin',items)
         res.render('items_search', templateVars);
       })
       .catch(err => {
