@@ -1,8 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt');
-const { checkVendorIfCookie } = require('../lib/db_helpers');
-
+const { checkVendorIfCookie, removeNullValues } = require('../lib/db_helpers');
 
 const splitArrayToGroupsOfThree = (items) => {
   let itemsArray = [];
@@ -19,26 +18,6 @@ const splitArrayToGroupsOfThree = (items) => {
   return itemsArray;
 };
 
-const removeNullValues = (body, params) => {
-  //arrays to update multiple columns
-  let keys = [];
-  let values = [];
-  //looping through body to remove null values
-  for (let key in body) {
-    if (body[key] !== '') {
-      if (key === 'price') {
-        keys.push(key);
-        params.push(body[key] * 100);
-        values.push(`$${params.length}`)
-      } else {
-        keys.push(key);
-        params.push(body[key]);
-        values.push(`$${params.length}`);
-      }
-    }
-  }
- return [keys, values];
-};
 
 module.exports = (db) => {
 
@@ -108,7 +87,7 @@ module.exports = (db) => {
     console.log('🩹', keys, values);
 
     //adding columns to be modified
-    if (queryParams.length === 2){
+    if (queryParams.length === 2) {
       queryString += `
       ${keys} = (${values})
       WHERE id = $1
@@ -138,7 +117,3 @@ module.exports = (db) => {
 
   return router;
 };
-
-
-// post like search page /:id/:edit
-// Do a DB update, not an instert

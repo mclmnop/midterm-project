@@ -29,10 +29,9 @@
   </head>
 
   <body>
-    <div class ="searchResult">
+    <div class="searchResult">
 
       <div class="container">
-          <hr>
           <div class="row">
               <div class="col-12">
                   <div class="well search-result">
@@ -44,7 +43,7 @@
                           <% } %>
                         </div>
                         <div class="col-xs-6 col-sm-9">
-                          <h2 class="display-4"><%= searchResult.name%></h2>
+                          <h2 class="display-1"><%= searchResult.name%></h2>
                           <p><%= searchResult.description%></p>
                           <p>Price: $<%= searchResult.price / 100 %></p>
                           <p>Posted on : <%= searchResult.creation_date.toISOString().slice(0, -14) %></p>
